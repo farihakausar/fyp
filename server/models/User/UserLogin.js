@@ -8,7 +8,7 @@ const user=mongoose.Schema({
     email:{
         type:String
     },
-    interested_subjects:{
+    interestedSubjects:{
         type:String
     },
     password:{
@@ -17,7 +17,7 @@ const user=mongoose.Schema({
     cpassword:{
 type:String
     },
-    
+    myFile: { type: String } ,
     tokens:[{
 token:
 {
