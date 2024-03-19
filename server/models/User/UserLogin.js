@@ -17,7 +17,7 @@ const user=mongoose.Schema({
     cpassword:{
 type:String
     },
-    myFile: { type: String } ,
+    file: {type:String},
     tokens:[{
 token:
 {
@@ -48,3 +48,4 @@ user.method.generateAuthToken=async function (){
 const Usermodel=mongoose.model("user",user)
 
 module.exports=Usermodel;
+

@@ -7,28 +7,27 @@ const User= require("../models/User/UserLogin")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'uploads'); // Specify the directory where you want to store uploaded files
+     cb(null, "./uploads"); // Specify the directory where you want to store uploaded files
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + path.extname(file.originalname)); // Define filename
     }
   });
-  
-  const upload = multer({ storage: storage });
+  const upload = multer({ storage});
 
 
-  router.post("/register", upload.single('myFile'), async (req, res) => {
+  router.post("/register", upload.single('file'), async (req, res) => {
     try {
       const { name, email, password, cpassword, interestedSubjects } = req.body;
-const {myFile}=req.file;
-console.log(myFile,'gett')
+      const file=req.file.path;
+      console.log(file,'gett')
       const newUser = new User({
         name,
         email,
         password,
         cpassword,
         interestedSubjects,
-        myFile: req.file ? req.file.path : null // Save file path in the database
+        file:  req.file.path 
       });
   
       await newUser.save();
@@ -107,7 +106,7 @@ const temp={
     name:user.name,
    email:user.email,
    interestedSubjects:user.interestedSubjects,
-   myFile:user.myFile,
+   file:user.file,
     _id:user._id
 }
 if(temp){

@@ -11,96 +11,32 @@ export default function Login() {
   const [cpassword, setCpassword] = useState()
 
   const [interestedSubjects, setInterestedSubjects] = useState()
-  const [myFile, setMyFile] = useState(null);
-
-  const handleFileChange = (e) => {
-  //  alert(e.target.files[0])
-    setMyFile(e.target.files[0]);
-  };
-const navgiation=useNavigate();
-  // const handleSubmit = async (e) => {
-  //   console.log("gvjkbjkbjkbj")
-  //   alert("jklbj,")
-  //   e.preventDefault();
-
-  //   const formData = new FormData();
-  //   formData.append('image', myFile);
-
-  //   try {
-  //     await axios.post('/api/users/login', formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data'
-  //       }
-  //     });
-  //     console.log('Image uploaded successfully');
-  //   } catch (error) {
-  //     console.error('Error uploading image:', error);
-  //   }
-  // };
-
-  const reg=async(e)=>{
-// console.log(e.target.files)
-    if (password===cpassword){
-      const user={
-        name,email,password,cpassword,interestedSubjects,myFile
-      }
-      console.log(user,"user")
+  const[file,setFile]=useState()
+  console.log(file,12)
+  const reg=()=>{
+    console.log(file,13)
+    const formData=new FormData();
+    formData.append("name",name)
+    formData.append("email",email)
+    formData.append("password",password)
+    formData.append("cpassword",cpassword)
+    formData.append("interestedSubjects",interestedSubjects)
+    formData.append("file",file)
     
-    try{
-      let response =await (await axios.post(`/api/users/register`,user)).data
-      console.log(response,"jk")
-     
-      setName("")
-      setEmail("")
-      setCpassword("")
-      setPassword("")
-      setInterestedSubjects("")
-setMyFile(null)
-      navgiation("/")
-    }catch(err){
-      console.log(err)
-    }}
-    else{
-      alert("password not match");
-    }
-   
+    
+    console.log(formData,"hkuhlh")
+    axios.post('http://localhost:5000/api/users/register',formData)
+    .then(res =>console.log(res))
+    .catch(er=>console.log(er))
+    
   }
-  // const reg = async () => {
-  //   if (password === cpassword) {
-  //     const formData = new FormData();
-  //     formData.append('name', name);
-  //     formData.append('email', email);
-  //     formData.append('password', password);
-  //     formData.append('cpassword', cpassword); 
-  //     formData.append('interestedSubjects', interestedSubjects);
-  //     formData.append('myFile', myFile);
+
+
+const navgiation=useNavigate();
  
-  //     try {
-  //       let response = await axios.post(`/api/users/register`, formData);
-  //       console.log(response,"get data");
-  //       setName("");
-  //       setEmail("");
-  //       setCpassword("");
-  //       setPassword("");
-  //       setInterestedSubjects("");
-  //       setMyFile(null);
-  //       navgiation("/");
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   } else {
-  //     alert("Passwords do not match");
-  //   }
-  // };
   
+
   
-  const handleUpload=()=>{
-    console.log(file)
-  }
-  // function handleClick() {
-  //   reg();
-  //   handleSubmit();
-  // }
   return (
     <>
      <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:m-auto w-full md:py-8 mt-8 md:mt-0">
@@ -130,8 +66,9 @@ onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border b
       </div>
       <div class="relative mb-4">
         <label for="file"class="leading-7 text-sm text-gray-600">Upload Pic</label>
-        <input type="file" onChange={e=>{setMyFile(e.target.files[0])}} />
-        {/* <input type="file" onChange={handleFileChange}   class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/> */}
+        <input type="file"  onChange={(e)=>setFile(e.target.files[0])}/>
+   
+    
  
       </div>
       
@@ -144,3 +81,27 @@ onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border b
   )
 }
 
+// import React,{useState} from 'react'
+// import axios from 'axios'
+// export default function Login() {
+//   const[file,setFile]=useState()
+//   console.log(file,12)
+//   const upload=()=>{
+//     console.log(file,13)
+//     const formData=new FormData();
+//     formData.append("file",file)
+    
+//     console.log(formData,"hkuhlh")
+//     axios.post('http://localhost:5000/upload',formData)
+//     .then(res =>console.log(res))
+//     .catch(er=>console.log(er))
+    
+//   }
+//   return (
+//     <>
+//     <input type="file"  onChange={(e)=>setFile(e.target.files[0])}/>
+//     <button type='button'onClick={upload}>uplaod</button>
+    
+//     </>
+//   )
+// }
