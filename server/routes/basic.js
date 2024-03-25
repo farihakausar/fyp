@@ -4,6 +4,7 @@ const path = require('path');
 const router=express.Router();
 const bcrypt=require("bcrypt")
 const User= require("../models/User/UserLogin")
+const Teacher= require("../models/User/Teacher.js/TeacherLogin")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -27,6 +28,7 @@ const storage = multer.diskStorage({
         password,
         cpassword,
         interestedSubjects,
+        
         file:  req.file.path 
       });
   
@@ -37,57 +39,30 @@ const storage = multer.diskStorage({
       res.status(400).json({ error });
     }
   });
+  // router.post("/registerteacher", upload.single('file'), async (req, res) => {
+  //   try {
+  //     const { name, email, password, cpassword, interestedSubjects,eduaction } = req.body;
+  //     const file=req.file.path;
+  //     console.log(file,'gett')
+  //     const newTeacher = new Teacher({
+  //       name,
+  //       email,
+  //       password,
+  //       cpassword,
+  //       interestedSubjects,
+  //       eduaction,
+  //       file:  req.file.path 
+  //     });
   
-  // Your registration route with file upload
-//   router.post("/register",  async (req, res) => {
-   
-//     try {
-//       const { name, email, password, cpassword, interestedSubjects} = req.body;
+  //     await newTeacher.save();
+  //     res.send("User signed up successfully");
+  //     console.log("done");
+  //   } catch (error) {
+  //     res.status(400).json({ error });
+  //   }
+  // });
   
-//     //   Retrieve the file path from req.file if available
-//     //   const myFile = req.file ? req.file.path : null;
-//     //   console.log(myFile)
   
-//       const newUser = new User({
-//         name,
-//         email,
-//         password,
-//         cpassword,
-//         interestedSubjects,
-      
-//       });
-  
-//       await newUser.save();
-//       res.send("User signed up successfully");
-//       console.log("done")
-//     } catch (error) {
-//       res.status(400).json({ error });
-//     }
-//   });
-// router.post("/register",async(req,res)=>{
-//     const newUser=new User(req.body);
-   
-// try{
-// //     const userExist=await User.find({email:email})
-// //     if(userExist){
-// //         return res.status(422).json({error:"email aldready exist"})
-// //     }
-// //     else if(password!==cpassword){
-// // return res.status(422).json({error:"password are not macthuing"})
-// //     }
-// //     else{
-// //         const newUser=new User(req.body);
-// // //ysaha per
-// //         await newUser.save();
-// //     }
-//    // ysaha per
-//     const user=await newUser.save();
-
-//     res.send("user sigin successfully")
-// }catch(error){
-// return res.status(400).json({error})
-// }
-// })
    
 
 
@@ -132,8 +107,75 @@ if(temp){
     return res.status(400).json({error})
     }
 })
-    
+// router.post("/loginteacher",async(req,res)=>{
+//   try{
+//     const {email,password}=req.body;
+//         if(!email||!password){
+//             return res.json({error:"plx fill the data"}) }
+//       const teacher=await Teacher.findOne({email:email})
+     
+//         if(teacher){
+// const isMatch=await bcrypt.compare(password,teacher.password)
+// const temp={
+//     name:teacher.name,
+//    email:teacher.email,
+//    interestedSubjects:teacher.interestedSubjects,
+//    eduaction:teacher.eduaction,
+//    file:teacher.file,
+//     _id:teacher._id
+// }
+// if(temp){
+//     res.send(temp)
+//     }
+//     const token =await teacher.generateAuthToken();
+//             console.log(token)
+//             res.cookie("jwtoken",token,{
+//                 expires:new Date(Date.now()+4567890),
+//                 httpOnly:true
+//             })
+//             if(!isMatch){
+//                 return res.json({error:"invalid credeintals"})
+//             }else{
+//                 return res.json({messege:"sigin successfully"})
+//             } }
+//         else{
+//             return res.json({error:"invalid credeintals"}) }
+//         console.log(teacher)
+        
+           
+//     }catch(error){
+//     return res.status(400).json({error})
+//     }
+// })
+router.get("/getallteacher",async(req,res)=>{
+  try{
+      const booking=await Teacher.find();
+      res.send(booking)
+  }catch(err){
+      return res.status(400).json({err})
+  }
+})
+router.get("/getallusers",async(req,res)=>{
+  try{
+      const users=await User.find()
+      res.send(users)
+  }catch(err){
+      return res.status(400).json({err})
+  }
+})
 
+router.post("/getuserbyid/:userid",async(req,res)=>{
+  // const roomid=req.body.roomid;
+  const userid=req.params;
+  try{
+      const room=await User.findOne({_id:userid.userid});
+      // const room=await Room.findOne({_id:roomid});
+      res.send(room);
+      console.log(room)
+  }catch(error){
+      res.status(400).json({msg:error})
+  }
+  })
     module.exports = router;
 
 

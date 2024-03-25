@@ -17,7 +17,10 @@ module.exports = {
         satisfy: ['"Satisfy"', ...defaultTheme.fontFamily.sans]
        
       
-      }
+      },
+      colors: {
+        customBlue: 'rgb(0, 36, 125)',
+      },
     },
   },
   plugins: [],

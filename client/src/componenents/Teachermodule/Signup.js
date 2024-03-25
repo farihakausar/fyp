@@ -17,7 +17,7 @@ export default function Signin() {
       console.log(user)
       try{
        
-        let response =await (await axios.post(`/api/users/login`,user)).data
+        let response =await (await axios.post(`/api/teacher/loginteacher`,user)).data
         localStorage.setItem("user",JSON.stringify(response))
 
         console.log(response)
@@ -47,7 +47,7 @@ export default function Signin() {
      
       
       <button  class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={reg}><a href='/student'>Sign in</a></button>
-      <p class="text-xs text-white mt-3 m-auto">Don't have account?  <span className='underline' ><a href="/login">Login</a></span></p>
+      <p class="text-xs text-white mt-3 m-auto">Don't have account?  <span className='underline' ><a href="/loginteacher">Login</a></span></p>
     </div>
     </div>
   

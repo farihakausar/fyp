@@ -1,59 +1,4 @@
-import React ,{useEffect,useState}from 'react'
-import Header from './Header'
-import Footer from './Footer'
-import logo from '../assests/back.jpeg';
-import logo1 from '../assests/uu.jpeg';
-import logo2 from '../assests/bg1.jpeg';
-export default function Homesection() {
-  const [bookings, setbookings] = useState([]);
-  useEffect(() => {
-    async function fetchMyAPI() {
-      try {
-        // setloading(true)
-        const data = await (await axios.get("/api/teacher/getallteacher")).data;
-        setbookings(data);
-       
-      } catch (err) {
-       
-        console.log(err);
-        
-      }
-    }
-
-    fetchMyAPI();
-  }, []);
-  return (
-    <>
-    
-    <Header/>
- 
-    <div className="flex row  text-center">
-      
-    <section class="text-gray-600 body-font px-40 py-10 bg-cover bg-center" style={{backgroundImage: `url(${logo1})`}}>
-  <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-    <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-    <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Welcome to Tute Me!
-  <br class="hidden lg:inline-block"/>Platform
-</h1>
-<p class="mb-8 leading-relaxed bg-black bg-opacity-0 text-black">Education is the key to success. At Tute Me, we strive to provide top-notch educational resources and support to help you achieve your learning goals.</p>
-
-      <div class="flex justify-center">
-      <a href="/login" class="inline-flex text-white bg-customBlue border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">join AS student</a>
-
-      <a href="/loginteacher" class="inline-flex text-white bg-customBlue border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">join AS teacher</a>
-
-      </div>
-    </div>
-  </div>
-</section>
-
-
-                    
-                    </div>
-               
-        
-      
-                    <section className="text-gray-600 body-font">
+ <section className="text-gray-600 body-font">
   <div className="container px-5 py-24 mx-auto">
     <div className="text-center mb-10">
       <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">What is Tute me ?</h1>
@@ -257,21 +202,6 @@ export default function Homesection() {
     <div class="flex flex-wrap -m-4">
       <div class="p-4 lg:w-1/4 md:w-1/2">
         <div class="h-full flex flex-col items-center text-center">
-           {/* {bookings.length &&
-                bookings.map((booking) => {
-                  return (
-                    <>
-                      <tr>
-                        <td>{booking._id}</td>
-                        <td>{booking.userid}</td>
-                        <td>{booking.room}</td>
-                        <td>{booking.fromdate}</td>
-                        <td>{booking.todate}</td>
-                        <td>{booking.status}</td>
-                      </tr>
-                    </>
-                  );
-                })} */}
           <img alt="team" class="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4" src="https://dummyimage.com/200x200"/>
           <div class="w-full">
             <h2 class="title-font font-medium text-lg text-gray-900">Alper Kamu</h2>
@@ -381,12 +311,3 @@ export default function Homesection() {
     </div>
   </div>
 </section>
-      
-      
-    
-   
-
-    <Footer/>
-    </>
-  )
-}

@@ -11,9 +11,9 @@ export default function Login() {
   const [cpassword, setCpassword] = useState()
 
   const [interestedSubjects, setInterestedSubjects] = useState()
+  const [eduaction, setEduaction] = useState()
   const[file,setFile]=useState()
-  const navigate=useNavigate();
-
+  const navgiation=useNavigate();
   console.log(file,12)
   const reg=()=>{
     console.log(file,13)
@@ -23,28 +23,14 @@ export default function Login() {
     formData.append("password",password)
     formData.append("cpassword",cpassword)
     formData.append("interestedSubjects",interestedSubjects)
+    formData.append("eduaction",eduaction)
     formData.append("file",file)
     
     
     console.log(formData,"hkuhlh")
-    try{
-     
-      let response =   axios.post('http://localhost:5000/api/users/register',formData)
-      localStorage.setItem("user",JSON.stringify(response))
-    
-      navigate("/")
-      console.log(response)
-   
-
-    }catch(err){
-      console.log(err)
-      
-    }
-    // axios.post('http://localhost:5000/api/users/register',formData)
-    // localStorage.setItem("user",JSON.stringify(response))
-    // navgiation.navigate("/")
-    // .then(res =>console.log(res))
-    // .catch(er=>console.log(er))
+    axios.post('http://localhost:5000/api/teacher/registerteacher',formData)
+    .then(res =>navgiation.navigate("/"))
+    .catch(er=>console.log(er))
     
   }
 
@@ -71,8 +57,12 @@ export default function Login() {
 onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
       </div>
       <div class="relative mb-4">
-        <label for="message" class="leading-7 text-sm text-white">Interested Subjects</label>
+        <label for="message" class="leading-7 text-sm text-white">Subects speciltity</label>
         <textarea id="message" name="message" value={interestedSubjects} onChange={(e)=>setInterestedSubjects(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+      </div>
+      <div class="relative mb-4">
+        <label for="message" class="leading-7 text-sm text-white">Education experience</label>
+        <textarea id="message" name="message" value={eduaction} onChange={(e)=>setEduaction(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
       </div>
       <div class="relative mb-4">
         <label for="email" class="leading-7 text-sm text-white">Password </label>
@@ -91,7 +81,7 @@ onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border b
       </div>
       
       <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"   onClick={reg}>Login in</button>
-      <p class="text-xs text-white mt-3 m-auto">Already have a account?  <span className='underline' ><a href="/signin">Sign up</a></span></p>
+      <p class="text-xs text-white mt-3 m-auto">Already have a account?  <span className='underline' ><a href="/signupteacher">Sign up</a></span></p>
     </div>
     </div>
     

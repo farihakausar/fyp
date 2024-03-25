@@ -1,8 +1,31 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
+import Header from '../Header'
 
 export default function SelectService() {
+  let { userid} = useParams();
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const user=JSON.parse(localStorage.getItem("user"));
+      if(!user){
+        window.location.reload="/login"
+      }
+      setloading(true);
+      let response = (await axios.post(`/api/users/getuserbyid/${userid}`)).data
+        // console.log(response.name)
+        setRoom(response)
+       
+        .catch((error) => {
+          
+          console.error('Error:', error);
+        });
+     
+    
+    }
+    fetchMyAPI()
+  },[])
   return (
     <>
+    <Header/>
     <div class="p-4 lg:w-1/2">
         <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
           <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200"/>

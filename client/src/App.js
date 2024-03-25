@@ -21,7 +21,8 @@ import Payment from './componenents/StudentModule/OnlineTutor/Payment';
 import Classroom from './componenents/StudentModule/OnlineTutor/Classroom';
 import Vitualclassroom from './componenents/StudentModule/OnlineTutor/Vitualclassroom';
 
-
+import LoginTeacher from "./componenents/Teachermodule/Login"
+import Signup from "./componenents/Teachermodule/Signup"
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
 
 
   <Routes>
+    {/* student */}
         <Route path="/" element={<HomeSection/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signin" element={<Signin/>} />
@@ -46,8 +48,9 @@ function App() {
         <Route path="/onlineteacherprofile" element={<Onlineteacherprofile/>} />
         <Route path="/booking" element={<Booking/>} />
         
-   
-     
+   {/* teacher */}
+   <Route path="/loginteacher" element={<LoginTeacher/>} />
+        <Route path="/signupteacher" element={<Signup/>} />
       </Routes>
 
     
