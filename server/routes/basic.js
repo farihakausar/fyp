@@ -17,27 +17,42 @@ const storage = multer.diskStorage({
   const upload = multer({ storage});
 
 
-  router.post("/register", upload.single('file'), async (req, res) => {
-    try {
-      const { name, email, password, cpassword, interestedSubjects } = req.body;
-      const file=req.file.path;
-      console.log(file,'gett')
-      const newUser = new User({
-        name,
-        email,
-        password,
-        cpassword,
-        interestedSubjects,
+  // router.post("/register", upload.single('file'), async (req, res) => {
+  //   try {
+  //     const { name, email, password, cpassword, interestedSubjects } = req.body;
+  //     const file=req.file.path;
+  //     console.log(file,'gett')
+  //     const newUser = new User({
+  //       name,
+  //       email,
+  //       password,
+  //       cpassword,
+  //       interestedSubjects,
         
-        file:  req.file.path 
-      });
+  //       file:  req.file.path 
+  //     });
   
-      await newUser.save();
-      res.send("User signed up successfully");
-      console.log("done");
-    } catch (error) {
-      res.status(400).json({ error });
-    }
+  //     await newUser.save();
+  //     res.send("User signed up successfully");
+  //     console.log("done");
+  //   } catch (error) {
+  //     res.status(400).json({ error });
+  //   }
+  // });
+  router.post('/register', (req, res) => {
+    const { email, password, role } = req.body;
+  
+    // Create a new user
+    const newUser = new User({
+      email,
+      password,
+      role
+    });
+  
+    // Save user to database
+    newUser.save()
+      .then(user => res.json(user))
+      .catch(err => console.log(err));
   });
   // router.post("/registerteacher", upload.single('file'), async (req, res) => {
   //   try {
