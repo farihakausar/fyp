@@ -112,13 +112,13 @@ export default function Courese() {
       <div class="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-8">
        
         <div class="flex flex-col overflow-hidden rounded-lg border bg-white">
-          <a href="/signin" class="group relative block h-48 overflow-hidden bg-gray-100 md:h-64">
+          <a href="/coursedetail" class="group relative block h-48 overflow-hidden bg-gray-100 md:h-64">
             <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&q=75&fit=crop&w=600" loading="lazy" alt="Photo by Minh Pham" class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
           </a>
   
           <div class="flex flex-1 flex-col p-4 sm:p-6">
             <h2 class="mb-2 text-lg font-semibold text-gray-800">
-              <a href="/signin" class="transition duration-100 hover:text-indigo-500 active:text-indigo-600">mern stack </a>
+              <a href="/coursedetail" class="transition duration-100 hover:text-indigo-500 active:text-indigo-600">mern stack </a>
             </h2>
   
             <p class="mb-8 text-gray-500">This is a section of some simple filler text, also known as placeholder text. It shares some characteristics of a real written text.</p>

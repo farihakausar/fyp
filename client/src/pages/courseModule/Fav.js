@@ -22,7 +22,7 @@ export default function Fav() {
           </thead>
           <tbody>
             <tr>
-             <a href="/signin"> <td class="px-4 py-3" >web programming</td></a>
+             <a href="/coursedetail"> <td class="px-4 py-3" >web programming</td></a>
               <td class="px-4 py-3">vs code </td>
               <td class="px-4 py-3">react js tailwnd css hmtl css</td>
               <td class="px-4 py-3 text-lg text-gray-900">englisjh urdu</td>

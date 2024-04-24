@@ -80,8 +80,8 @@ onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border b
  
       </div>
       
-      <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"   onClick={reg}>Login in</button>
-      <p class="text-xs text-white mt-3 m-auto">Already have a account?  <span className='underline' ><a href="/signupteacher">Sign up</a></span></p>
+      <button class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"  ><a href="/service">Login in</a></button>
+      <p class="text-xs text-white mt-3 m-auto">Already have a account?  <span className='underline' ><a href="/signupTeacher">Sign up</a></span></p>
     </div>
     </div>
     

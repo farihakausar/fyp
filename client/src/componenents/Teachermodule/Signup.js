@@ -46,8 +46,8 @@ export default function Signin() {
       </div>
      
       
-      <button  class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={reg}><a href='/student'>Sign in</a></button>
-      <p class="text-xs text-white mt-3 m-auto">Don't have account?  <span className='underline' ><a href="/loginteacher">Login</a></span></p>
+      <button  class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={reg}><a href='/service'>Sign in</a></button>
+      <p class="text-xs text-white mt-3 m-auto">Don't have account?  <span className='underline' ><a href="/loginTeacher">Login</a></span></p>
     </div>
     </div>
   

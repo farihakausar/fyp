@@ -26,6 +26,8 @@
 
 import React from 'react';
 import { NavLink,useNavigate } from 'react-router-dom'
+import Dropdown from 'react-bootstrap/Dropdown';
+import { DropdownToggle, DropdownMenu } from 'react-bootstrap';
 export default function Header() {
   const navigate=useNavigate();
   const logout=()=>{
@@ -33,6 +35,7 @@ export default function Header() {
     navigate("/login")
   }
   const user=JSON.parse(localStorage.getItem("user"));
+  console.log(user,"nklnlmlkm;lm;lj")
   return (
     <header className="text-white body-font" style={{ backgroundColor: 'rgb(0, 36, 125)' }}>
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -47,10 +50,41 @@ export default function Header() {
    
  
   <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-  <h1 className='mr-5 hover:text-white font-education hover:underline'> {user.name}</h1>
-          <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'white' }} href="/">Profile</a>
-          <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'white' }} href="/">{user.name}</a>
-          <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'white' }}  onClick={logout} href="/about">logout</a>
+  <h1 className='mr-5 hover:text-white font-education hover:underline'> </h1>
+ 
+  
+ {/* <Dropdown>
+    <Dropdown.Toggle variant="secondary" id="dropdown-profile" className="mr-5 hover:text-white font-education hover:underline">
+      teacher Profile
+    </Dropdown.Toggle>
+    <Dropdown.Menu>
+      <Dropdown.Item href="/editprofile">Edit profile</Dropdown.Item>
+      <Dropdown.Item href="/homeclasses">added  home  online</Dropdown.Item>
+      <Dropdown.Item href="/chat">msgs</Dropdown.Item>
+    </Dropdown.Menu>
+  </Dropdown> */}
+   <Dropdown>
+    <Dropdown.Toggle variant="secondary" id="dropdown-profile" className="mr-5 hover:text-white font-education hover:underline">
+    {user.email}
+    </Dropdown.Toggle>
+    <Dropdown.Menu>
+      <Dropdown.Item href="/editprofile">Edit profile</Dropdown.Item>
+      <Dropdown.Item href="/myhometutors">courses \\ home \\ online</Dropdown.Item>
+      <Dropdown.Item href="/chat">msgs</Dropdown.Item>
+      <Dropdown.Item href="/chat"><button onClick={logout}>logout</button></Dropdown.Item>
+    </Dropdown.Menu>
+  </Dropdown>
+  <img style={{height:90,width:80}}
+              // src={`http://localhost:5000/api/usersregister/uploads/${user.photo}`}
+              // src={`http://localhost:5000/uploads/1713725131914_.png`}
+              alt="grid_image"
+            />
+  <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'white' }} href="/">{user.name}</a>
+  <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'white' }} href="/about"></a>
+
+          <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'white' }} href="/editprofile">Profile</a>
+          <a className="mr-5 hover:text-white font-education hover:underline" style={{ color: 'black' }} href="/">{user.name}</a>
+
           </nav>
   {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <NavLink className="dropdown-item" to="/profile">Profile</NavLink>

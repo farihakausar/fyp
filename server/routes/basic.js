@@ -1,21 +1,61 @@
 const express=require("express");
-const multer = require('multer');
+
 const path = require('path');
 const router=express.Router();
 const bcrypt=require("bcrypt")
 const User= require("../models/User/UserLogin")
 const Teacher= require("../models/User/Teacher.js/TeacherLogin")
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-     cb(null, "./uploads"); // Specify the directory where you want to store uploaded files
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)); // Define filename
-    }
-  });
-  const upload = multer({ storage});
+const multer = require("multer");
 
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}_${path.extname(file.originalname)}`);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (allowedFileTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+const upload = multer({ storage: storage ,fileFilter});
+router.post("/register", upload.single("photo"), async (req, res) => {
+  console.log(req.file);
+  const name = req.body.name;
+  const email = req.body.email;
+  const interestedSubjects = req.body.interestedSubjects;
+
+  const  password = req.body.password;
+  const  cpassword = req.body.cpassword;
+  const photo = req.file.filename;
+  try {
+    await User.create({name: name, photo: photo ,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.json({ status: error });
+  }
+});
+router.get("/user/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
   // router.post("/register", upload.single('file'), async (req, res) => {
   //   try {
@@ -39,21 +79,7 @@ const storage = multer.diskStorage({
   //     res.status(400).json({ error });
   //   }
   // });
-  router.post('/register', (req, res) => {
-    const { email, password, role } = req.body;
-  
-    // Create a new user
-    const newUser = new User({
-      email,
-      password,
-      role
-    });
-  
-    // Save user to database
-    newUser.save()
-      .then(user => res.json(user))
-      .catch(err => console.log(err));
-  });
+ 
   // router.post("/registerteacher", upload.single('file'), async (req, res) => {
   //   try {
   //     const { name, email, password, cpassword, interestedSubjects,eduaction } = req.body;
@@ -82,6 +108,26 @@ const storage = multer.diskStorage({
 
 
       
+router.get("/getfiles", async (req, res) => {
+  try {
+    User.find({}).then((data) => {
+      res.send({ status: "ok", data: data });
+    });
+  } catch (error) {}
+});
+router.get("/getfiles/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send({ status: "error", message: "User not found" });
+    }
+    res.send({ status: "ok", data: user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ status: "error", message: "Internal server error" });
+  }
+});
   
 router.post("/login",async(req,res)=>{
   try{
@@ -96,7 +142,8 @@ const temp={
     name:user.name,
    email:user.email,
    interestedSubjects:user.interestedSubjects,
-   file:user.file,
+  photo:user.photo,
+
     _id:user._id
 }
 if(temp){

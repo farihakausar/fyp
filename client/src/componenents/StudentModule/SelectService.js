@@ -2,34 +2,96 @@ import React,{useEffect,useState} from 'react'
 import Header from '../Header'
 
 export default function SelectService() {
-  let { userid} = useParams();
+  const [allImage, setAllImage] = useState(null);
   useEffect(() => {
-    async function fetchMyAPI() {
-      const user=JSON.parse(localStorage.getItem("user"));
-      if(!user){
-        window.location.reload="/login"
-      }
-      setloading(true);
-      let response = (await axios.post(`/api/users/getuserbyid/${userid}`)).data
-        // console.log(response.name)
-        setRoom(response)
+    getPdf();
+  }, []);
+  const getPdf = async () => {
+    const result = await axios.get("http://localhost:5000/api/users/get-files");
+    console.log(result.data.data,"api data");
+    setAllImage(result.data.data);
+  };
+  // let { userid} = useParams();
+  // useEffect(() => {
+  //   async function fetchMyAPI() {
+  //     const user=JSON.parse(localStorage.getItem("user"));
+  //     if(!user){
+  //       window.location.reload="/login"
+  //     }
+  //     setloading(true);
+  //     let response = (await axios.post(`/api/users/getuserbyid/${userid}`)).data
+  //       // console.log(response.name)
+  //       setRoom(response)
        
-        .catch((error) => {
+  //       .catch((error) => {
           
-          console.error('Error:', error);
-        });
+  //         console.error('Error:', error);
+  //       });
      
     
-    }
-    fetchMyAPI()
-  },[])
+  //   }
+  //   fetchMyAPI()
+  // },[])
   return (
+    // <>
+    // <div className="output-div">
+    //       {allImage == null
+    //         ? ""
+    //         : allImage.map((data) => {
+    //             return (
+    //               <div className="inner-div">
+    //                 <h6>Title: {data.title}</h6>
+    //                 <h6>Title: {data.email}</h6>
+    //                 <h6>Title: {data.education}</h6>
+    //                 <h6>Title: {data.interestedSubjects}</h6>
+    //                 <h6>Title: {data.password}</h6>
+    //                 <h6>Title: {data.cpassword}</h6>
+    //                 <h6>Title: {data.photo}</h6>
+    //                 <img style={{height:90,width:80}}
+    //           src={`http://localhost:5000/api/users/uploads/${data.photo}`}
+    //           // src={`http://localhost:5000/uploads/1713725131914_.png`}
+    //           alt="grid_image"
+    //         />
+                  
+    //               </div>
+    //             );
+    //           })}
+    //     </div>
+    
+    // </>
     <>
     <Header/>
     <div class="p-4 lg:w-1/2">
         <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
           <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200"/>
           <div class="flex-grow sm:pl-8">
+             {allImage ? (
+              <>
+              <h2 class="title-font font-medium text-lg text-gray-900">{allImage._id}</h2>
+            <h3 class="text-gray-500 mb-3">UI Developer</h3>
+            <p class="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
+       
+            <div className="mb-6 flex items-center gap-2 text-gray-500">
+              <div className="  font-semibold text-customBlue">Technologies:</div>
+              <span className="font-semibold">{room.tech}</span>
+              <br />
+              <div className="font-semibold text-customBlue ">Tools:</div>
+              <span className="font-semibold">{room.tool}</span>
+            </div>
+
+            <div className="mt-10 md:mt-16 lg:mt-20">
+              <div className="mb-3 text-lg font-semibold text-customBlue">Description</div>
+              <p className="text-gray-500 italic">
+               {room.courseDesc}
+              </p>
+             
+            </div>
+          {/* <p>{course.description}</p> */}
+          {/* Add any other fields you want to display */}
+          </>
+      ) : (
+        <p>Loading...</p>
+      )}
             <h2 class="title-font font-medium text-lg text-gray-900">Holden Caulfield</h2>
             <h3 class="text-gray-500 mb-3">UI Developer</h3>
             <p class="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
@@ -67,7 +129,7 @@ export default function SelectService() {
         <div className='lg:w-1/3 md:w-1/2 bg-white flex flex-col md:m-auto w-full md:py-8 mt-8 md:mt-0'>
         <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/homeTutor'>Home tutor</a></button>
         <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/onlineHome'>Online tutor</a></button>
-        <button class="text-white bg-indigo-500 border-0  m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/onlineCourse'>Online course</a></button>
+        <button class="text-white bg-indigo-500 border-0  m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/courese'>Online course</a></button>
         </div>
         </div>
     </>
