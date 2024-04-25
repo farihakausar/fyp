@@ -21,14 +21,15 @@ const jwt=require("jsonwebtoken")
 // mongoose.model("PdfDetails", PdfDetailsSchema);
 const user=mongoose.Schema({
    
-   name: String,
+   nameing: String,
    email: String,
    interestedSubjects: String,
     password: String,
     cpassword: String,
     photo: String,
    
-    tokens:[{
+    tokens:[
+        {
 token:
 {
     type:String,
@@ -45,16 +46,28 @@ user.pre("save",async function (next){
     }
     next()
 })
-user.method.generateAuthToken=async function (){
-    try{
-        let tokenThapa=jwt.sign({_id:this._id},"drdtysertyuiopsxcftyi")
-        this.tokens=this.tokens.concat({token:tokenThapa})
-        await this.save()
-        return tokenThapa;
-    }catch(err){
-        console.log(err)
+user.methods.generateAuthToken = async function () {
+    try {
+      const token = jwt.sign({ _id: this._id }, "thisisfarihakausarinuniversotyofeducation");
+      this.tokens = this.tokens.concat({ token:token });
+      await this.save();
+      return token;
+    } catch (err) {
+      console.error(err);
+      throw new Error("Failed to generate token");
     }
-}
+  };
+  
+// user.method.generateAuthToken=async function (){
+//     try{
+//         let tokenThapa=jwt.sign({_id:this._id},"drdtysertyuiopsxcftyi")
+//         this.tokens=this.tokens.concat({token:tokenThapa})
+//         await this.save()
+//         return tokenThapa;
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
 const Usermodel=mongoose.model("user",user)
 
 module.exports=Usermodel;

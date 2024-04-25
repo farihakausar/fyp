@@ -25,7 +25,8 @@ export default function SpecificCourse() {
     fetchCourse();
   }, [roomid]);
   //  const done = `${room._id}`;
-  //  console.log(done)
+  // const roomId = room._id;
+  //  console.log(roomId )
   return (
     <>
       <Header/>
@@ -94,9 +95,9 @@ export default function SpecificCourse() {
 
            
 
-            <div className="flex gap-2.5">
-              <a  href={`/editcourse/${room._id}`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a>
-            </div>
+            {/* <div className="flex gap-2.5">
+              <a  href={`/editcourse/`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a>
+            </div> */}
           </div>
 
         </div>

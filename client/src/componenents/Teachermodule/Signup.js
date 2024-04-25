@@ -9,25 +9,44 @@ export default function Signin() {
  
   const [password, setPassword] = useState("");
   const navigate=useNavigate();
+  // const reg=async()=>{
+   
+  //     const user={
+  //       email,password
+  //     }
+  //     console.log(user)
+  //     try{
+       
+  //       let response =await (await axios.post(`/api/teacher/loginteacher`,user)).data
+  //       localStorage.setItem("user",JSON.stringify(response))
+
+  //       console.log(response)
+  //       navigate("/")
+
+  //     }catch(err){
+  //       console.log(err)
+     
+  //     }
+  //   }
   const reg=async()=>{
    
-      const user={
-        email,password
-      }
-      console.log(user)
-      try{
-       
-        let response =await (await axios.post(`/api/teacher/loginteacher`,user)).data
-        localStorage.setItem("user",JSON.stringify(response))
-
-        console.log(response)
-        navigate("/")
-
-      }catch(err){
-        console.log(err)
-     
-      }
+    const user={
+      email,password
     }
+    console.log(user)
+    try{
+     
+      let response =await (await axios.post(`/api/teacher/login`,user)).data
+      // localStorage.setItem("user",JSON.stringify(response))
+
+      console.log(response)
+      navigate("/service")
+
+    }catch(err){
+      console.log(err)
+   
+    }
+  }
   return (
     <>
   <div className='bg-cover bg-center bg-blue-200 w-full  ' style={{ backgroundImage: 'url(https://media.istockphoto.com/id/948623158/vector/seamless-innovation-and-scientific-data-background.jpg?s=612x612&w=0&k=20&c=IHOut6hIYjxiY5MZlu1gDd4_K886MhfVpfUQxYLr16E=)'}}>
@@ -46,7 +65,7 @@ export default function Signin() {
       </div>
      
       
-      <button  class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={reg}><a href='/service'>Sign in</a></button>
+      <button  class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={reg}>Sign in</button>
       <p class="text-xs text-white mt-3 m-auto">Don't have account?  <span className='underline' ><a href="/loginTeacher">Login</a></span></p>
     </div>
     </div>

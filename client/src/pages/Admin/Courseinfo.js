@@ -84,65 +84,7 @@ export function AddCourse() {
     }
 }
 
-  // async function addroom(){
-  //   console.log("object")
-  //   const newroom = {
-  //         photo,
-  //         courseName,
-  //         courseDesc,
-  //         videoURL,
-  //         pptFile,
-  //         language,
-  //         tech,
-  //         tool,
 
-  // }
-  // console.log(newroom)
-  // console.log("1")
-  // try {
-  //   console.log("12")
-  //       const result = 
-  //         await axios.post("/api/admin/courses", newroom)
-  //         console.log("17677")
-  //       console.log(result.data)
-  //       console.log("10987")
-     
-  //     } catch (error) {
-  //       console.log(error);
-     
-        
-  //     }
-  //   }
-
-
-
-  // async function addroom() {
-  //   Alert("nklmnkl")
-  //   const newroom = {
-  //     photo,
-  //     courseName,
-  //     courseDesc,
-  //     videoURL,
-  //     pptFile,
-  //     language,
-  //     tech,
-  //     tool,
-  //   };
-  //   // console.log(newroom)
-  //   try {
-    
-  //     const result = await (
-  //       await axios.post("/api/admin/courses", newroom)
-  //     ).data;
-  //     console.log(result);
-    
-  //     Alert("nlknkl")
-  //   } catch (error) {
-  //     console.log(error);
-   
-      
-  //   }
-  // }
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
 
@@ -434,6 +376,8 @@ export function AddedCourse () {
 
     fetchMyAPI();
   }, []);
+  const roomId = rooms._id;
+   console.log(roomId,"roomihkh")
   return (
     <div className="row">
         <div className="col-md-10">
@@ -484,6 +428,9 @@ export function AddedCourse () {
                      
                         <td>{room.pptFile}</td>
                         <td>{room.videoURL}</td>
+                        <div className="flex gap-2.5">
+              <a  href={`/editcourse/${room._id}`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a>
+            </div>
                       </tr>
                     </>
                   );
@@ -491,6 +438,8 @@ export function AddedCourse () {
             </tbody>
               </table>
             </div>
+        
+           
           </div>
   )
 }

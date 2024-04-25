@@ -5,9 +5,9 @@ const router=express.Router();
 const bcrypt=require("bcrypt")
 const User= require("../models/User/UserLogin")
 const Teacher= require("../models/User/Teacher.js/TeacherLogin")
-
+const jwt=require("jsonwebtoken")
 const multer = require("multer");
-
+const auth=require("../middlewares/auth")
 
 
 const storage = multer.diskStorage({
@@ -29,17 +29,26 @@ const fileFilter = (req, file, cb) => {
 };
 const upload = multer({ storage: storage ,fileFilter});
 router.post("/register", upload.single("photo"), async (req, res) => {
-  console.log(req.file);
-  const name = req.body.name;
+  // console.log(req.file);
+  const nameing = req.body.nameing;
   const email = req.body.email;
   const interestedSubjects = req.body.interestedSubjects;
 
   const  password = req.body.password;
   const  cpassword = req.body.cpassword;
-  const photo = req.file.filename;
+  // const photo = req.file.filename;
   try {
-    await User.create({name: name, photo: photo ,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
-    res.send({ status: "ok" });
+    let user1=await User.create({nameing: nameing,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
+    
+    
+    // const token = req.cookies.jwtoken;
+    // res.send({ status: "ok", token }); 
+    const token =await user1.generateAuthToken();
+res.cookie("jwtoken",token,{
+              expires:new Date(Date.now()+4567890),
+              httpOnly:true
+          })
+          res.send({  token }); 
   } catch (error) {
     res.json({ status: error });
   }
@@ -138,8 +147,14 @@ router.post("/login",async(req,res)=>{
      
         if(user){
 const isMatch=await bcrypt.compare(password,user.password)
+const token =await user.generateAuthToken();
+res.cookie("jwtoken",token,{
+              expires:new Date(Date.now()+4567890),
+              httpOnly:true
+          })
+console.log(token)
 const temp={
-    name:user.name,
+    nameing:user.nameing,
    email:user.email,
    interestedSubjects:user.interestedSubjects,
   photo:user.photo,
@@ -149,25 +164,25 @@ const temp={
 if(temp){
     res.send(temp)
     }
-    const token =await user.generateAuthToken();
-            console.log(token)
-            res.cookie("jwtoken",token,{
-                expires:new Date(Date.now()+4567890),
-                httpOnly:true
-            })
+  
             if(!isMatch){
                 return res.json({error:"invalid credeintals"})
             }else{
                 return res.json({messege:"sigin successfully"})
-            } }
-        else{
-            return res.json({error:"invalid credeintals"}) }
-        console.log(user)
+            } 
+  
         
+          }
            
-    }catch(error){
-    return res.status(400).json({error})
     }
+    catch(error){
+    // return res.status(400).json({error})
+    console.log(error)
+    }
+})
+router.get('/about',auth,(req,res)=>{
+  console.log("nnknkmnknnknkl")
+  res.send(req.rootUser)
 })
 // router.post("/loginteacher",async(req,res)=>{
 //   try{

@@ -79,7 +79,7 @@ function App() {
      <Route path="/loginTeacher" element={< LoginTeacher/>} />
         <Route path="/signupTeacher" element={<SignupTeacher/>} />
         <Route path="/service" element={<Service/>} />
-        <Route path="/addhomeservice" element={<AddHomeService/>} />
+        <Route path="/addhomeservice/:teacherId" element={<AddHomeService/>} />
         <Route path="/teacheraddedservices" element={<Techeraddedhome/>} />
         <Route path="/homeclasses" element={<Homeclasses/>} />
         <Route path="/editService" element={<EditService/>} />
@@ -110,7 +110,7 @@ function App() {
     <Route path="/dashboard" element={<AdminPanelLayout/>} />
 
     <Route path="/infoteacher" element={<Teacher/>} />
-    <Route path="/detailteacher" element={<TeacherDeatil/>} />
+    <Route path="/detailteacher/:id" element={<TeacherDeatil/>} />
     <Route path="/specificCourse/:roomid" element={<SpecificCourse/>} />
     <Route path="/editcourse/:roomid" element={<Editcourse/>} />
     
@@ -147,4 +147,76 @@ export default App;
 // }
 
 
+// import React, { useState } from 'react';
+// import axios from 'axios';
 
+// const App = () => {
+//   const [file, setFile] = useState(null);
+
+//   const handleFileChange = (event) => {
+//     setFile(event.target.files[0]);
+//   };
+
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+//     const formData = new FormData();
+//     formData.append('image', file);
+//     try {
+//       await axios.post('http://localhost:3001/upload', formData, {
+//         headers: {
+//           'Content-Type': 'multipart/form-data'
+//         }
+//       });
+//       alert('Image uploaded successfully');
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input type="file" onChange={handleFileChange} />
+//       <button type="submit">Upload</button>
+//     </form>
+//   );
+// };
+
+// export default App
+
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// const App = () => {
+//   const [file, setFile] = useState(null);
+
+//   const handleFileChange = (event) => {
+//     setFile(event.target.files[0]);
+//   };
+
+//   const handleSubmit = async (event) => {
+//     event.preventDefault();
+//     const formData = new FormData();
+//     formData.append('pdf', file);
+//     try {
+//       const response = await axios.post('/upload-pdf', formData, {
+//         headers: {
+//           'Content-Type': 'multipart/form-data'
+//         }
+//       });
+//       console.log('PDF uploaded successfully:', response.data.url);
+//       // Handle the response, e.g., display success message or update UI
+//     } catch (error) {
+//       console.error('Error uploading PDF:', error);
+//       // Handle error, e.g., display error message to user
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input type="file" accept=".pdf" onChange={handleFileChange} />
+//       <button type="submit">Upload PDF</button>
+//     </form>
+//   );
+// };
+
+// export default App;

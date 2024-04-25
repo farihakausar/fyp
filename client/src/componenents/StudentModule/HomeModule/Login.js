@@ -105,7 +105,7 @@ import {
 import axios from "axios"
 
 export default function Login() {
-  const [name, setName] = useState()
+  const [nameing, setNameing] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [cpassword, setCpassword] = useState()
@@ -150,7 +150,7 @@ export default function Login() {
   const reg = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("title", name);
+    formData.append("nameing", nameing);
     formData.append("password", password);
     formData.append("cpassword",cpassword);
     formData.append("email", email);
@@ -167,7 +167,7 @@ export default function Login() {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
-    console.log(result);
+    console.log(result,"reulst from frontwend");
     localStorage.setItem("user",JSON.stringify(result))
    
     if (result.data.status == "ok") {
@@ -190,7 +190,7 @@ export default function Login() {
       <p class="leading-relaxed mb-5 text-white m-auto">Welcome to the education revolution</p>
       <div class="relative mb-4">
         <label for="name" class="leading-7 text-sm text-white">Name</label>
-        <input type="text" id="name" name="name" value={name} onChange={(e)=>{setName(e.target.value)}} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+        <input type="text" id="name" name="nameing" value={nameing} onChange={(e)=>{setNameing(e.target.value)}} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
       </div>
       <div class="relative mb-4">
         <label for="email" class="leading-7 text-sm text-white">Email</label>

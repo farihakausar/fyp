@@ -1,14 +1,45 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 
 export default function Service() {
+  const [userData,setUserData]=useState()
+  const [teacherId,setTeacherId]=useState()
+const getPdf= async()=>{
+  try {
+    const resgh=await fetch('/api/teacher/about',{
+      method:"GET",
+      headers:{
+        Accept:"application/json",
+        "Content-Type":"application/json"
+      },credentials:"include"
+    })
+    const data =await resgh.json()
+    setUserData(data)
+    setTeacherId(data._id)
+
+    console.log(data,"datafromabout")
+    if(!res.status===200){
+      const error=new Error(res.error)
+      throw error
+
+    }
+  } catch (error) {
+    // history.push("/login")
+    console.log("nkljkl")
+  }
+}
+
+useEffect(() => {
+  getPdf();
+}, []);
   return (
     <>
-  
+    {userData ? (
+       <>
     <div class="p-4 lg:w-1/2">
         <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
           <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200"/>
           <div class="flex-grow sm:pl-8">
-            <h2 class="title-font font-medium text-lg text-gray-900">Holden Caulfield</h2>
+            <h2 class="title-font font-medium text-lg text-gray-900">Holden Caulfield{userData.name}</h2>
             <h3 class="text-gray-500 mb-3">UI Developer</h3>
             <p class="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
             <span class="inline-flex">
@@ -43,11 +74,14 @@ export default function Service() {
         <p class="leading-relaxed mb-8">Live-edge letterpress cliche,.</p>
         <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-2 m-auto">WAnt to join as </h2>
         <div className='lg:w-1/3 md:w-1/2 bg-white flex flex-col md:m-auto w-full md:py-8 mt-8 md:mt-0'>
-        <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/addhomeservice'> join as Home tutor</a></button>
+        <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href={`/addhomeservice/${teacherId}`}> join as Home tutor</a></button>
         <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/onlineHome'>join as Online tutor</a></button>
         {/* <button class="text-white bg-indigo-500 border-0  m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/onlineCourse'>Online course</a></button> */}
         </div>
         </div>
+        </> ):
+         <p className='text-black'>losdpkp</p>
+            }
     </>
   )
 }
