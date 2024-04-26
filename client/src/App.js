@@ -12,12 +12,12 @@ import Signin from './componenents/StudentModule/HomeModule/Signin'
 import SelectService from './componenents/StudentModule/SelectService';
 import CourseDetail from './pages/courseModule/Courseinfo';
 import Teacherprofile from './componenents/StudentModule/HomeModule/Teacherprofile';
-import Book from './componenents/StudentModule/Book';
+
 import HomeTutor from './componenents/StudentModule/HomeTutor';
 import OnlineHoem from './componenents/StudentModule/OnlineModule/OnlineHoem';
 import Pricngoption from './componenents/StudentModule/Pricngoption';
 import Onlineteacherprofile from './componenents/StudentModule/HomeModule/Onlineteacherprofile';
-import Booking from './componenents/StudentModule/HomeModule/Booking';
+
 import Payment from './componenents/StudentModule/OnlineModule/Payment';
 import Classroom from './componenents/StudentModule/OnlineModule/Classroom';
 import Vitualclassroom from './componenents/StudentModule/OnlineModule/Vitualclassroom';
@@ -61,11 +61,11 @@ function App() {
         <Route path="/" element={<HomeSection/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signin" element={<Signin/>} />
-        <Route path="/teacherprofile" element={<Teacherprofile/>} />
+        <Route path="/teacherprofile/:id" element={<Teacherprofile/>} />
         <Route path="/onlineteacherprofile" element={<Onlineteacherprofile/>} />
-        <Route path="/booking" element={<Booking/>} />
-        <Route path="/book" element={<Book/>} />
-        <Route path="/Payment" element={<Payment/>} />
+       
+    
+        {/* <Route path="/Payment" element={<Payment/>} /> */}
         <Route path="/payment" element={<Pricngoption/>} />
         <Route path="/editprofile" element={<EditProfile/>} />
         <Route path="/homeclass" element={<HomeClass/>} />

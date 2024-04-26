@@ -108,39 +108,6 @@ router.get('/about',authing,(req,res)=>{
 })
 
 
-// router.post("/service-request/:teacherId", async (req, res) => {
-//   try {
-//       const {
-//           course,
-//           address,
-//           educationDetail,
-//           cv,price,timing,
-//       } = req.body;
-
-//       const teacherRequest = await TeacherRequest.findById(req.params.teacherId);
-//       if (!teacherRequest) {
-//           return res.status(404).json({ message: "Teacher request not found" });
-//       }
-
-//       const serviceRequest = await TeacherServiceRequest.create({
-//           teacher: req.params.teacherId,
-//           course,
-//           address,
-//           timing,
-//           price,
-//           educationDetail,
-//           cv
-//       });
-
-//       teacherRequest.serviceRequests.push(serviceRequest);
-//       await teacherRequest.save();
-
-//       res.json({ message: "Service request created successfully" });
-//   } catch (error) {
-//       console.error(error);
-//       res.status(500).json({ message: "Server Error" });
-//   }
-// });
 
 
 router.post("/service-request/:teacherId", async (req, res) => {

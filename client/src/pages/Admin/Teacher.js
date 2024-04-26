@@ -6,14 +6,6 @@ import { Tabs } from "antd";
 import Header from "./Header";
 
 function Teacher() {
-//   const [bookings, setBookings] = useState([]);
-//   const [loading, setloading] = useState();
-//   const [error, seterror] = useState([]);
-//   useEffect(() => {
-//        if(!JSON.parse(localStorage.getItem("user")).isAdmin){
-//     window.location.href="/home"
-//        }
-//           }, [])
 
   return (
     <>
@@ -36,12 +28,7 @@ function Teacher() {
           <Tabs.TabPane   tab={<span style={{ color: '#FF6347',fontStyle:"italic"  }}> ApprovedTeacher</span>} key="2">
             <ApprovedTeacher />
           </Tabs.TabPane>
-          {/* <Tabs.TabPane tab=" add Room" key="3">
-            <Addrooms />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Users" key="4">
-            <User />
-          </Tabs.TabPane> */}
+       
         </Tabs>
       </div>
     </div>
