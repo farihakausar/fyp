@@ -22,13 +22,80 @@
 //     </>
 //   );
 // }
-import React from "react";
+import React ,{useState,useEffect}from "react";
 import { FaDesktop, FaMoneyBill, FaUserGraduate } from "react-icons/fa";
 import moneyImg from "../../assests/money.jpg"
 import Header from "../Header";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import Footer from "../Footer";
 
+
 export default function Payment() {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [cardDetails, setCardDetails] = useState(null);
+  const [clientSecret, setClientSecret] = useState(null);
+  const [email, setEmail] = useState("");
+  const [cardElement, setCardElement] = useState(null);
+  const [loading, setLoading] = useState(false);
+ 
+  const fetchPaymentIntentClientSecret = async () => {
+    const response = await fetch("/api/users/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    const { clientSecret, error } = await response.json();
+    return { clientSecret, error };
+  };
+
+  const handlePayPress = async () => {
+    setLoading(true);
+
+    try {
+      const { clientSecret, error } = await fetchPaymentIntentClientSecret();
+
+      if (error) {
+        console.log("Unable to process payment");
+        return;
+      }
+
+      const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: { email },
+        },
+      });
+
+      if (confirmError) {
+        console.log("Payment Confirmation Error:", confirmError.message);
+        alert(`Payment Confirmation Error: ${confirmError.message}`);
+      } else {
+        console.log("Payment Successful ", paymentIntent);
+        alert("Payment Successful");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+
+    setLoading(false);
+  };
+  // const handleStripePayment = async () => {
+  //   try {
+  //     const response = await fetch("/create-payment-intent", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     const data = await response.json();
+  //     setClientSecret(data.clientSecret);
+  //   } catch (error) {
+  //     console.error("Error fetching client secret:", error);
+  //   }
+  // };
   return (
     <>
     <Header/>
@@ -48,12 +115,30 @@ export default function Payment() {
           Pricing Options
         </h2>
         <div className="bg-white flex flex-col w-full md:py-8">
-          <button className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-            <a href="/online" className="flex items-center text-white">
+          <button    onClick={handlePayPress}className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+            <a  className="flex items-center text-white">
               <FaDesktop className="mr-2" />
               Online
             </a>
           </button>
+          <div style={{flex: 1,
+      justifyContent: "center",
+      margin: 20}}>
+      
+      <input
+        placeholder="E-mail"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{backgroundColor: "#efefef",
+        borderRadius: 8,
+        fontSize: 20,
+        height: 50,
+        padding: 10,
+        marginBottom: 20,}}
+      />
+      <button onClick={handlePayPress} disabled={loading}>Pay</button>
+    </div>
           <button className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
             <a href="/cash" className="flex items-center text-white">
               <FaMoneyBill className="mr-2 " />

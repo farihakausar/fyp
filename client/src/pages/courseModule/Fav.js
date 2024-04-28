@@ -91,10 +91,21 @@
 //   </>
 //   )
 // }
-import React from "react";
-
+import React,{useState} from "react";
+import Header from "../../componenents/Header";
+import Footer from "../../componenents/Footer";
+import { HeartOutlined, HeartFilled } from '@ant-design/icons';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 export default function Fav() {
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
   return (
+    <>
+    <Header/>
     <section className="text-gray-600 body-font ">
       <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
@@ -143,6 +154,15 @@ export default function Fav() {
                     </svg>
                   </button>
                 </td>
+                <td className="px-4 py-3">
+                  {/* Toggle favorite button */}
+                  <button onClick={toggleFavorite} className="text-indigo-500 inline-flex items-center">
+                    {isFavorite ? <FaHeart className="w-4 h-4 ml-2 text-red-500" /> : <FaRegHeart className="w-4 h-4 ml-2" />}
+                    {/* If you want to use Ant Design Icons, replace the above lines with the following:
+                    {isFavorite ? <HeartFilled className="w-4 h-4 ml-2 text-red-500" /> : <HeartOutlined className="w-4 h-4 ml-2" />}
+                    */}
+                  </button>
+                </td>
               </tr>
             </tbody>
             <tbody>
@@ -161,6 +181,36 @@ export default function Fav() {
                     >
                       <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr className="border-t">
+                <td className="px-4 py-3">Web Programming</td>
+                <td className="px-4 py-3">VS Code</td>
+                <td className="px-4 py-3">React, Tailwind CSS, HTML, CSS</td>
+                <td className="px-4 py-3">English, Urdu</td>
+                <td className="px-4 py-3">
+                  <button className="text-indigo-500 inline-flex items-center">
+                    Learn More
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      className="w-4 h-4 ml-2"
+                    >
+                      <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
+
+                </td>
+                <td className="px-4 py-3">
+                  {/* Toggle favorite button */}
+                  <button onClick={toggleFavorite} className="text-indigo-500 inline-flex items-center">
+                    {isFavorite ? <FaHeart className="w-4 h-4 ml-2 text-red-500" /> : <FaRegHeart className="w-4 h-4 ml-2" />}
+                    {/* If you want to use Ant Design Icons, replace the above lines with the following:
+                    {isFavorite ? <HeartFilled className="w-4 h-4 ml-2 text-red-500" /> : <HeartOutlined className="w-4 h-4 ml-2" />}
+                    */}
                   </button>
                 </td>
               </tr>
@@ -203,24 +253,13 @@ export default function Fav() {
                     </svg>
                   </button>
                 </td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr className="border-t">
-                <td className="px-4 py-3">Web Programming</td>
-                <td className="px-4 py-3">VS Code</td>
-                <td className="px-4 py-3">React, Tailwind CSS, HTML, CSS</td>
-                <td className="px-4 py-3">English, Urdu</td>
                 <td className="px-4 py-3">
-                  <button className="text-indigo-500 inline-flex items-center">
-                    Learn More
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      className="w-4 h-4 ml-2"
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
+                  {/* Toggle favorite button */}
+                  <button onClick={toggleFavorite} className="text-indigo-500 inline-flex items-center">
+                    {isFavorite ? <FaHeart className="w-4 h-4 ml-2 text-red-500" /> : <FaRegHeart className="w-4 h-4 ml-2" />}
+                    {/* If you want to use Ant Design Icons, replace the above lines with the following:
+                    {isFavorite ? <HeartFilled className="w-4 h-4 ml-2 text-red-500" /> : <HeartOutlined className="w-4 h-4 ml-2" />}
+                    */}
                   </button>
                 </td>
               </tr>
@@ -228,13 +267,11 @@ export default function Fav() {
           </table>
         </div>
 
-        <div className="flex justify-center mt-8">
-          <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-            Book Now
-          </button>
-        </div>
+       
       </div>
     </section>
+    <Footer/>
+    </>
   );
 }
 

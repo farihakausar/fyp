@@ -118,11 +118,41 @@
 // </div>
 //   )
 // }
-import React from "react";
+import React, { useState ,useEffect} from 'react'
+import { useParams } from 'react-router-dom'; 
+import Header from '../../componenents/Header';
+import Footer from '../../componenents/Footer';
+import axios from 'axios'
 import courseImg from "../../assests/coursem.jpeg";
 
 export default function CourseDetail() {
+  const [teacherRequest, setTeacherRequest] = useState(null);
+  const { id } = useParams(); 
+  useEffect(() => {
+    const fetchTeacherRequest = async () => {
+      try {
+        const response = await axios.get(`/api/admin/courses/${id}`);
+        setTeacherRequest(response.data);
+        console.log("teacher speicf",response.data)
+      } catch (error) {
+        console.error('Error fetching teacher request:', error);
+        // Handle any errors or display error messages here
+      }
+    };
+
+    // Call the fetchTeacherRequest function when the component mounts
+    fetchTeacherRequest();
+
+    // Clean up function (optional)
+    return () => {
+      // Any cleanup code here, if needed
+    };
+  }, []);
   return (
+    <>
+    <Header />
+    {teacherRequest && (
+      <>
     <div className="bg-blue-50 py-6 sm:py-8 lg:py-12">
       <div className="mx-auto max-w-screen-lg px-4 md:px-8">
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -148,7 +178,7 @@ export default function CourseDetail() {
                   Fancy Brand
                 </span>
                 <h2 className="text-2xl font-bold text-gray-800 lg:text-3xl">
-                  Course Name
+                  Course Name {teacherRequest.courseName}
                 </h2>
               </div>
 
@@ -188,14 +218,14 @@ export default function CourseDetail() {
                 <span className="text-sm text-blue-500 font-bold">
                   Technologies
                 </span>
-                <span className="text-sm">HTML, CSS, JavaScript</span>
+                <span className="text-sm">HTML, CSS, JavaScript {teacherRequest.tech}</span>
                 <span className="text-sm text-blue-500 font-bold">Tools</span>
-                <span className="text-sm">VS Code</span>
+                <span className="text-sm">VS Code {teacherRequest.tool}</span>
               </div>
 
               <div className="flex gap-2.5">
                 <a
-                  href="/enrolled"
+                  href="/coursemat"
                   className="inline-block flex-1 rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base"
                 >
                   Enrolled
@@ -227,6 +257,7 @@ export default function CourseDetail() {
                 </div>
 
                 <p className="text-gray-500">
+                {teacherRequest.courseDesc}
                   This is a section of some simple filler text, also known as
                   placeholder text. It shares some characteristics of a real
                   written text but is random or otherwise generated. It may be
@@ -244,5 +275,9 @@ export default function CourseDetail() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
+  )}
+    </>
   );
 }

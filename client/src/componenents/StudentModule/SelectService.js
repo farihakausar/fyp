@@ -388,7 +388,7 @@ useEffect(() => {
 
           <div className="flex flex-col justify-center items-start">
             <h2 className="text-3xl font-medium text-gray-900 mb-4">
-              Holden Caulfield name ftech :{userData.name}
+              {userData.nameing}
             </h2>
             
             <p className="text-gray-600 mb-4">
@@ -430,7 +430,7 @@ useEffect(() => {
                   </a>
                 </button>
                 <button className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-lg">
-                  <a class="text-white" href="/course">
+                  <a class="text-white" href="/courese">
                     Online Course
                   </a>
                 </button>

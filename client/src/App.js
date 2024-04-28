@@ -16,9 +16,9 @@ import Teacherprofile from './componenents/StudentModule/HomeModule/Teacherprofi
 import HomeTutor from './componenents/StudentModule/HomeTutor';
 import OnlineHoem from './componenents/StudentModule/OnlineModule/OnlineHoem';
 import Pricngoption from './componenents/StudentModule/Pricngoption';
-import Onlineteacherprofile from './componenents/StudentModule/HomeModule/Onlineteacherprofile';
+import Onlineteacherprofile from './componenents/StudentModule/OnlineModule/Onlineteacherprofile';
 
-import Payment from './componenents/StudentModule/OnlineModule/Payment';
+import Payment from './componenents/StudentModule/OnlineModule/PaymentOnlinemodule';
 import Classroom from './componenents/StudentModule/OnlineModule/Classroom';
 import Vitualclassroom from './componenents/StudentModule/OnlineModule/Vitualclassroom';
 
@@ -47,6 +47,16 @@ import Homeclasses from './componenents/Teachermodule/HomeModule/Homeclasses';
 import Techeraddedhome from './componenents/Teachermodule/HomeModule/Techeraddedhome';
 import EditService from './componenents/Teachermodule/HomeModule/EditService';
 import SpecificService from './componenents/Teachermodule/HomeModule/SpecificService';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import StripeApp from "./StripeApp";
+import PaymentOnlinemodule from './componenents/StudentModule/OnlineModule/PaymentOnlinemodule';
+import SpecifcTutor from './componenents/StudentModule/OnlineModule/SpecifcTutor';
+import VideoStream from './componenents/StudentModule/OnlineModule/VideoStream';
+import AddOnlineService from './componenents/Teachermodule/OnlineModule/AddOnlineService';
+import Techeraddedonline from './componenents/Teachermodule/OnlineModule/Techeraddedonline';
+import SpecificOnlineService from './componenents/Teachermodule/OnlineModule/SpecificOnlineService';
+const stripePromise = loadStripe("pk_test_51Og5cTJ7pz3TsDzfr8KUrFFeovdGHs9Twln1FzSrz5sVjSkMUTCufwvxbBwRpD4ZLlXmcau0lyUvnvL1j7Q8r97Q006SSFMfx3");
 function App() {
   return (
     <>
@@ -54,7 +64,9 @@ function App() {
 
 
 
-  
+  <Elements stripe={stripePromise}>
+      {/* <StripeApp /> */}
+    
    
    <Routes>
      {/* student home*/}
@@ -65,14 +77,18 @@ function App() {
         <Route path="/onlineteacherprofile" element={<Onlineteacherprofile/>} />
        
     
-        {/* <Route path="/Payment" element={<Payment/>} /> */}
+        
         <Route path="/payment" element={<Pricngoption/>} />
+        <Route path="/paymentdone" element={<PaymentOnlinemodule/>} />
         <Route path="/editprofile" element={<EditProfile/>} />
         <Route path="/homeclass" element={<HomeClass/>} />
         <Route path="/selectservice" element={<SelectService/>} />
         <Route path="/chat" element={<Chat/>} />
         <Route path="/myhometutors" element={<MyHometutor/>} />
         <Route path="/detail" element={<Detail/>} />
+        <Route path="/specifiteacher" element={<SpecifcTutor/>} />
+        <Route path="/chatonline" element={<Classroom/>} />
+        <Route path="/videostearm" element={<VideoStream/>} />
      {/*  */}
     
      {/* tutor home  */}
@@ -92,8 +108,12 @@ function App() {
     
         <Route path="/onlineHome" element={<OnlineHoem/>} />
       
-       
-       
+       {/* tutor online */}
+       <Route path="/addonlineservice/:teacherId" element={<AddOnlineService/>} />
+      
+      <Route path="/teacheronlineservices" element={<Techeraddedonline/>} />
+  
+      <Route path="/specifconline" element={<SpecificOnlineService/>} />
         
 
      
@@ -102,7 +122,7 @@ function App() {
 {/* student course*/}
     <Route path="/fav" element={<Fav/>} />
     <Route path="/courese" element={<Courese/>} />
-    <Route path="/coursedetail" element={<CourseDetail/>} />
+    <Route path="/coursedetail/:id" element={<CourseDetail/>} />
     <Route path="/enrolled" element={<CourseEnrolled/>} />
     <Route path="/coursemat" element={<CourseMateril/>} />
     {/* admin */}
@@ -115,7 +135,7 @@ function App() {
     <Route path="/editcourse/:roomid" element={<Editcourse/>} />
     
     </Routes> 
-
+    </Elements>
     
     </>
   );

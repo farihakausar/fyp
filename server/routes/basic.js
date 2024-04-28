@@ -1,15 +1,27 @@
 const express=require("express");
 
 const path = require('path');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const router=express.Router();
 const bcrypt=require("bcrypt")
 const User= require("../models/User/UserLogin")
 const Teacher= require("../models/User/Teacher.js/TeacherLogin")
 const jwt=require("jsonwebtoken")
-const multer = require("multer");
+const cloudinary = require('cloudinary').v2;
+const mongoose = require('mongoose');
+
 const auth=require("../middlewares/auth")
-
-
+const PUBLISHABLE_KEY = "pk_test_51Og5cTJ7pz3TsDzfr8KUrFFeovdGHs9Twln1FzSrz5sVjSkMUTCufwvxbBwRpD4ZLlXmcau0lyUvnvL1j7Q8r97Q006SSFMfx3";
+const SECRET_KEY = "sk_test_51Og5cTJ7pz3TsDzfIWpcaLz5zF1CIvNufxvxC95qYeu9Ay34G5eCeD4OyEJi64I4ple15BNiVrEElqmCEaefvYpE00xAtRInFM";
+const Stripe =require("stripe");
+const Course = require("../models/Admin/Addcourse");
+const stripe = Stripe(SECRET_KEY);
+cloudinary.config({
+  cloud_name: 'dmyrbutlu',
+  api_key: '234937942539642',
+  api_secret: '_Ap3aiSN-NBZ2xt3x4Mm9w4yBoo'
+});
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/uploads");
@@ -27,7 +39,46 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-const upload = multer({ storage: storage ,fileFilter});
+// const upload = multer({ storage: storage ,fileFilter});
+// router.post("/register", upload.single('image'), async (req, res) => {
+//   try {
+//     // Extract user details from request body
+//     const { nameing, email, interestedSubjects, password, cpassword } = req.body;
+//     const result = await cloudinary.uploader.upload(req.file.path);
+//     //     const newImage = new Image({ imageURL: result.secure_url });
+//     //     await newImage.save();
+//     // Upload photo to Cloudinary
+//     const photo=req.file.filename;
+//     // const uploadedPhoto = await cloudinary.uploader.upload(req.filename); // Assuming 'photo' is the file received from frontend
+
+//     // Create user with Cloudinary photo URL
+//     const user = await User.create({
+//       nameing: nameing,
+//       email: email,
+//       interestedSubjects: interestedSubjects,
+//       password: password,
+//       cpassword: cpassword,
+//       imageURL: result.secure_url,
+//       // photo: photo  Store Cloudinary URL in user document
+//     });
+
+//     // Generate JWT token
+//     const token = await user.generateAuthToken();
+
+//     // Set token in cookie
+//     res.cookie("jwtoken", token, {
+//       expires: new Date(Date.now() + 4567890),
+//       httpOnly: true
+//     });
+
+//     // Send success response with token
+//     res.status(200).json({ token });
+
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 router.post("/register", upload.single("photo"), async (req, res) => {
   // console.log(req.file);
   const nameing = req.body.nameing;
@@ -66,53 +117,7 @@ router.get("/user/:userId", async (req, res) => {
   }
 });
 
-  // router.post("/register", upload.single('file'), async (req, res) => {
-  //   try {
-  //     const { name, email, password, cpassword, interestedSubjects } = req.body;
-  //     const file=req.file.path;
-  //     console.log(file,'gett')
-  //     const newUser = new User({
-  //       name,
-  //       email,
-  //       password,
-  //       cpassword,
-  //       interestedSubjects,
-        
-  //       file:  req.file.path 
-  //     });
-  
-  //     await newUser.save();
-  //     res.send("User signed up successfully");
-  //     console.log("done");
-  //   } catch (error) {
-  //     res.status(400).json({ error });
-  //   }
-  // });
- 
-  // router.post("/registerteacher", upload.single('file'), async (req, res) => {
-  //   try {
-  //     const { name, email, password, cpassword, interestedSubjects,eduaction } = req.body;
-  //     const file=req.file.path;
-  //     console.log(file,'gett')
-  //     const newTeacher = new Teacher({
-  //       name,
-  //       email,
-  //       password,
-  //       cpassword,
-  //       interestedSubjects,
-  //       eduaction,
-  //       file:  req.file.path 
-  //     });
-  
-  //     await newTeacher.save();
-  //     res.send("User signed up successfully");
-  //     console.log("done");
-  //   } catch (error) {
-  //     res.status(400).json({ error });
-  //   }
-  // });
-  
-  
+
    
 
 
@@ -184,46 +189,7 @@ router.get('/about',auth,(req,res)=>{
   console.log("nnknkmnknnknkl")
   res.send(req.rootUser)
 })
-// router.post("/loginteacher",async(req,res)=>{
-//   try{
-//     const {email,password}=req.body;
-//         if(!email||!password){
-//             return res.json({error:"plx fill the data"}) }
-//       const teacher=await Teacher.findOne({email:email})
-     
-//         if(teacher){
-// const isMatch=await bcrypt.compare(password,teacher.password)
-// const temp={
-//     name:teacher.name,
-//    email:teacher.email,
-//    interestedSubjects:teacher.interestedSubjects,
-//    eduaction:teacher.eduaction,
-//    file:teacher.file,
-//     _id:teacher._id
-// }
-// if(temp){
-//     res.send(temp)
-//     }
-//     const token =await teacher.generateAuthToken();
-//             console.log(token)
-//             res.cookie("jwtoken",token,{
-//                 expires:new Date(Date.now()+4567890),
-//                 httpOnly:true
-//             })
-//             if(!isMatch){
-//                 return res.json({error:"invalid credeintals"})
-//             }else{
-//                 return res.json({messege:"sigin successfully"})
-//             } }
-//         else{
-//             return res.json({error:"invalid credeintals"}) }
-//         console.log(teacher)
-        
-           
-//     }catch(error){
-//     return res.status(400).json({error})
-//     }
-// })
+
 router.get("/getallteacher",async(req,res)=>{
   try{
       const booking=await Teacher.find();
@@ -253,6 +219,238 @@ router.post("/getuserbyid/:userid",async(req,res)=>{
       res.status(400).json({msg:error})
   }
   })
+  router.post("/create-payment-intent", async (req, res) => {
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1099, //lowest denomination of particular currency
+        currency: "usd",
+        payment_method_types: ["card"], //by default
+      });
+  
+      const clientSecret = paymentIntent.client_secret;
+  console.log("backenddone")
+      res.json({
+        clientSecret: clientSecret,
+      });
+      console.log("backenddone")
+    } catch (e) {
+      console.log(e.message,"backend");
+      res.json({ error: e.message });
+    }
+  });
+  router.post("/create-payment-intent/:userId/:courseId", async (req, res) => {
+    try {
+      const { userId, courseId } = req.params;
+  
+      // Update the user schema to include the specific course and mark payment as done
+      await User.findByIdAndUpdate(userId, { 
+        $push: { courses: courseId },
+        paymentStatus: 'done'
+      });
+  
+      // Create a payment intent with specific amount, currency, and payment method types
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 1099, // Adjust the amount as needed
+        currency: "usd",
+        payment_method_types: ["card"], // By default
+      });
+  
+      const clientSecret = paymentIntent.client_secret;
+  
+      // Send the client secret back to the client
+      res.json({
+        clientSecret: clientSecret,
+      });
+    } catch (error) {
+      console.log(error.message, "backend");
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  router.get("/users-with-payment-done", async (req, res) => {
+    try {
+      // Find all users with paymentDone set to true
+      const users = await User.find({ paymentStatus: 'done'});
+  
+      // Send the list of users back to the client
+      res.json(users);
+    } catch (error) {
+      console.log(error.message, "backend");
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  // new added
+
+  router.put("/update/:userId", upload.single("photo"), async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const updates = req.body;
+     
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      Object.keys(updates).forEach((key) => {
+        user[key] = updates[key];
+      });
+  
+      await user.save();
+  
+      res.json({ status: "User updated successfully" });
+    } catch (error) {
+      res.status(500).json({ error: "Api is not working" });
+    }
+  });
+
+// get single course
+router.get("/user/:userId/course/:courseId", async (req, res) => {
+  const userId = req.params.userId;
+  const courseId = req.params.courseId;
+  try {
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
+      }
+
+      const course = await Course.findById(courseId);
+      if (!course) {
+          return res.status(404).json({ error: "Course not found" });
+      }
+
+      const isEnrolled = user.courses.includes(courseId);
+      if (!isEnrolled) {
+          return res.status(404).json({ error: "User is not enrolled in this course" });
+      }
+
+      if (user.paymentStatus !== 'done') {
+          return res.status(404).json({ error: "Payment for this course is pending" });
+      }
+      res.json(course);
+  } catch (error) {
+      res.status(500).json({ error: "Server Error" });
+  }
+});
+
+
+
+// Add couse
+router.post('/user/:userId/add-course', async (req, res) => {
+  const userId = req.params.userId;
+  const courseId = req.body.courseId;
+  const courseName = req.body.courseName;
+
+  try {
+    if (!courseId || !courseName) {
+      return res.status(400).json({ error: "Course ID and name are required." });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    user.courses.push({ courseId, courseName });
+    await user.save();
+
+    res.status(201).json({ message: "Course added successfully.", user });
+  } catch (error) {
+    console.error("Error adding course:", error);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+
+// Get All courses
+router.get('/user/:userId/courses', async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    res.status(200).json({ courses: user.courses });
+  } catch (error) {
+    console.error("Error fetching user's courses:", error);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+  
+
+// Get single Course
+router.get('/user/:userId/courses/:courseId', async (req, res) => {
+  const userId = req.params.userId;
+  const courseId = req.params.courseId;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    const course = user.courses.find(course => course._id.toString() === courseId);
+    if (!course) {
+      return res.status(404).json({ error: "Course not found." });
+    }
+
+    res.status(200).json({ course });
+  } catch (error) {
+    console.error("Error fetching course:", error);
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+// Add fav course
+router.post("/user/addfavcourse/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const courseId = req.body.courseId;
+  const courseName = req.body.courseName;
+  console.log("courseId:", courseId);
+// console.log("course.courseId:", course.courseId);
+  console.log(courseName,'courseName')
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // Check if the course is already added to favorites
+    const existingCourse = user.favCourses.find(course => course.courseId  === courseId );
+    if (existingCourse) {
+      return res.status(400).json({ error: "Course already added to favorites" });
+    }
+    // Push the new course to favCourses array
+    user.favCourses.push({ courseId, courseName });
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// single Fav course
+router.get("/user/getfavcourse/:userId/:courseId", async (req, res) => {
+  const userId = req.params.userId;
+  const courseId = req.params.courseId;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const favCourse = user?.favCourses.find(course => course.courseId && course.courseId.toString() === courseId.toString());
+    if (!favCourse) {
+      return res.status(404).json({ error: "Favorite course not found" });
+    }
+
+    res.json(favCourse);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
     module.exports = router;
 
 
