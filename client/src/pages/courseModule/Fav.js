@@ -91,21 +91,36 @@
 //   </>
 //   )
 // }
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import Header from "../../componenents/Header";
 import Footer from "../../componenents/Footer";
+import axios from "axios";
 import { HeartOutlined, HeartFilled } from '@ant-design/icons';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
+import { useParams } from 'react-router-dom'; 
 export default function Fav() {
+  const { userId } = useParams(); 
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const [favoriteCourses, setFavoriteCourses] = useState([]);
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
+  useEffect(() => {
+    const fetchFavoriteCourses = async () => {
+      try {
+        const response = await axios.get(`/api/user/favcourses/${userId}`);
+        setIsFavorite(response.data.favoriteCourses);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
 
+    fetchFavoriteCourses();
+  }, [userId]);
   return (
     <>
     <Header/>
+   
     <section className="text-gray-600 body-font ">
       <div className="container px-5 py-10 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
@@ -113,8 +128,11 @@ export default function Fav() {
             Favorites
           </h1>
         </div>
-        <div className="lg:w-2/3 w-full mx-auto overflow-x-auto bg-white rounded-lg shadow-md">
-          {/* Table */}
+        {favoriteCourses.map(course => (
+          <p className='text-black'key={course._id}>{course.courseDesc}</p> // Replace 'name' with the actual field name of the course
+        ))}
+        {/* <div className="lg:w-2/3 w-full mx-auto overflow-x-auto bg-white rounded-lg shadow-md">
+     
           <table className="table-auto w-full text-left whitespace-no-wrap">
             <thead>
               <tr>
@@ -136,7 +154,7 @@ export default function Fav() {
               </tr>
             </thead>
             <tbody>
-              {/* Example Row (Replace with dynamic data) */}
+          
               <tr className="border-t">
                 <td className="px-4 py-3">Web Programming</td>
                 <td className="px-4 py-3">VS Code</td>
@@ -155,12 +173,10 @@ export default function Fav() {
                   </button>
                 </td>
                 <td className="px-4 py-3">
-                  {/* Toggle favorite button */}
+              
                   <button onClick={toggleFavorite} className="text-indigo-500 inline-flex items-center">
                     {isFavorite ? <FaHeart className="w-4 h-4 ml-2 text-red-500" /> : <FaRegHeart className="w-4 h-4 ml-2" />}
-                    {/* If you want to use Ant Design Icons, replace the above lines with the following:
-                    {isFavorite ? <HeartFilled className="w-4 h-4 ml-2 text-red-500" /> : <HeartOutlined className="w-4 h-4 ml-2" />}
-                    */}
+                 
                   </button>
                 </td>
               </tr>
@@ -205,12 +221,10 @@ export default function Fav() {
 
                 </td>
                 <td className="px-4 py-3">
-                  {/* Toggle favorite button */}
+            
                   <button onClick={toggleFavorite} className="text-indigo-500 inline-flex items-center">
                     {isFavorite ? <FaHeart className="w-4 h-4 ml-2 text-red-500" /> : <FaRegHeart className="w-4 h-4 ml-2" />}
-                    {/* If you want to use Ant Design Icons, replace the above lines with the following:
-                    {isFavorite ? <HeartFilled className="w-4 h-4 ml-2 text-red-500" /> : <HeartOutlined className="w-4 h-4 ml-2" />}
-                    */}
+                   
                   </button>
                 </td>
               </tr>
@@ -254,22 +268,21 @@ export default function Fav() {
                   </button>
                 </td>
                 <td className="px-4 py-3">
-                  {/* Toggle favorite button */}
+                 
                   <button onClick={toggleFavorite} className="text-indigo-500 inline-flex items-center">
                     {isFavorite ? <FaHeart className="w-4 h-4 ml-2 text-red-500" /> : <FaRegHeart className="w-4 h-4 ml-2" />}
-                    {/* If you want to use Ant Design Icons, replace the above lines with the following:
-                    {isFavorite ? <HeartFilled className="w-4 h-4 ml-2 text-red-500" /> : <HeartOutlined className="w-4 h-4 ml-2" />}
-                    */}
+                   
                   </button>
                 </td>
               </tr>
             </tbody>
           </table>
-        </div>
+        </div>  */}
 
        
       </div>
     </section>
+   
     <Footer/>
     </>
   );

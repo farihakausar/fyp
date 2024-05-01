@@ -26,6 +26,7 @@ const user=mongoose.Schema({
    interestedSubjects: String,
     password: String,
     cpassword: String,
+    about: String,
     imageURL: String,
     courses: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -38,7 +39,7 @@ const user=mongoose.Schema({
 },
 favCourses: [{
   type: mongoose.Schema.Types.ObjectId,
-  ref: 'courseDetail'
+  ref: 'Course'
 }],
     tokens:[
         {

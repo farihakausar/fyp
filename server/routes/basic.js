@@ -12,11 +12,13 @@ const cloudinary = require('cloudinary').v2;
 const mongoose = require('mongoose');
 
 const auth=require("../middlewares/auth")
-const PUBLISHABLE_KEY = "pk_test_51Og5cTJ7pz3TsDzfr8KUrFFeovdGHs9Twln1FzSrz5sVjSkMUTCufwvxbBwRpD4ZLlXmcau0lyUvnvL1j7Q8r97Q006SSFMfx3";
-const SECRET_KEY = "sk_test_51Og5cTJ7pz3TsDzfIWpcaLz5zF1CIvNufxvxC95qYeu9Ay34G5eCeD4OyEJi64I4ple15BNiVrEElqmCEaefvYpE00xAtRInFM";
+const stripe = require('stripe')('sk_test_51Og5cTJ7pz3TsDzfIWpcaLz5zF1CIvNufxvxC95qYeu9Ay34G5eCeD4OyEJi64I4ple15BNiVrEElqmCEaefvYpE00xAtRInFM');
+
 const Stripe =require("stripe");
 const Course = require("../models/Admin/Addcourse");
-const stripe = Stripe(SECRET_KEY);
+const TeacherServiceRequest = require("../models/teacher/teacherRequest");
+
+
 cloudinary.config({
   cloud_name: 'dmyrbutlu',
   api_key: '234937942539642',
@@ -219,25 +221,85 @@ router.post("/getuserbyid/:userid",async(req,res)=>{
       res.status(400).json({msg:error})
   }
   })
-  router.post("/create-payment-intent", async (req, res) => {
+//1
+  // router.post("/create-payment-intent/:price", async (req, res) => {
+  //   try {
+  //     const { price } = req.params;
+  //     const amount = parseInt(price); // Ensure the amount is in the correct format
+  //     if (isNaN(amount) || amount <= 0) {
+  //       return res.status(400).json({ error: "Invalid amount" });
+  //     }
+  
+  //     const paymentIntent = await stripe.paymentIntents.create({
+  //       amount,
+  //       currency: "usd",
+  //       payment_method_types: ["card"],
+  //     });
+  
+  //     const clientSecret = paymentIntent.client_secret;
+  
+  //     res.json({
+  //       clientSecret,
+  //     });
+  //   } catch (e) {
+  //     console.error(e.message);
+  //     res.status(500).json({ error: "Internal server error" });
+  //   }
+  // });
+  //2
+  // router.post("/create-payment-intent", async (req, res) => {
+  //   try {
+  //     const paymentIntent = await stripe.paymentIntents.create({
+  //       amount: 1099, //lowest denomination of particular currency
+  //       currency: "usd",
+  //       payment_method_types: ["card"], //by default
+  //     });
+  
+  //     const clientSecret = paymentIntent.client_secret;
+  // console.log("backenddone")
+  //     res.json({
+  //       clientSecret: clientSecret,
+  //     });
+  //     console.log("backenddone")
+  //   } catch (e) {
+  //     console.log(e.message,"backend");
+  //     res.json({ error: e.message });
+  //   }
+  // });
+  router.post("/create-payment-intent/:userId/:teacherId/:price", async (req, res) => {
     try {
+      const { userId, teacherId,price } = req.params;
+    
+  
+      // Create the payment intent with the amount
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1099, //lowest denomination of particular currency
-        currency: "usd",
-        payment_method_types: ["card"], //by default
+        amount: price * 100, // Amount should be in the lowest denomination (paisa)
+  currency: "PKR",
+        payment_method_types: ["card"],
       });
   
       const clientSecret = paymentIntent.client_secret;
-  console.log("backenddone")
-      res.json({
-        clientSecret: clientSecret,
-      });
-      console.log("backenddone")
+  
+      // Update user's payment status to 'done'
+      const updatedUser = await User.findByIdAndUpdate(userId, { paymentStatus: 'done' }, { new: true });
+
+    // Add the user to the teacher's service request
+    const updatedTeacherServiceRequest = await TeacherServiceRequest.findByIdAndUpdate(teacherId, { $push: { users: userId } }, { new: true });
+
+    // Push the particular course to user's courses array
+    await User.findByIdAndUpdate(userId, { $push: { courses: teacherId } });
+
+    res.json({
+      clientSecret,
+      updatedUser,
+      updatedTeacherServiceRequest
+    });
     } catch (e) {
-      console.log(e.message,"backend");
-      res.json({ error: e.message });
+      console.error(e.message);
+      res.status(500).json({ error: "Internal server error" });
     }
   });
+  
   router.post("/create-payment-intent/:userId/:courseId", async (req, res) => {
     try {
       const { userId, courseId } = req.params;
@@ -266,6 +328,20 @@ router.post("/getuserbyid/:userid",async(req,res)=>{
       res.status(500).json({ error: "Internal Server Error" });
     }
   });
+  router.post('/create-payment-intent', async (req, res) => {
+      try {
+        const { amount } = req.body;
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount,
+          currency: 'usd',
+        });
+        res.json({ clientSecret: paymentIntent.client_secret });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+      }
+    });
+    
   router.get("/users-with-payment-done", async (req, res) => {
     try {
       // Find all users with paymentDone set to true
@@ -402,27 +478,73 @@ router.get('/user/:userId/courses/:courseId', async (req, res) => {
   }
 });
 // Add fav course
-router.post("/user/addfavcourse/:userId", async (req, res) => {
+// router.post("/user/addfavcourse/:userId/:courseId", async (req, res) => {
+//   const userId = req.params.userId;
+//   const courseId = req.params.courseId;
+//   // const courseId = req.body.courseId;
+//   // const courseName = req.body.courseName;
+//   console.log("courseId:", courseId);
+// // console.log("course.courseId:", course.courseId);
+//   // console.log(courseName,'courseName')
+//   try {
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+//     // Check if the course is already added to favorites
+//     const existingCourse = user.favCourses.find(course => course.courseId  === courseId );
+//     if (existingCourse) {
+//       return res.status(400).json({ error: "Course already added to favorites" });
+//     }
+//     // Push the new course to favCourses array
+//     user.favCourses.push({ courseId });
+//     await user.save();
+//     res.json(user);
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+router.post("/addfavcourse/:userId/:courseId", async (req, res) => {
   const userId = req.params.userId;
-  const courseId = req.body.courseId;
-  const courseName = req.body.courseName;
-  console.log("courseId:", courseId);
-// console.log("course.courseId:", course.courseId);
-  console.log(courseName,'courseName')
+  const courseId = req.params.courseId;
+
   try {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
     // Check if the course is already added to favorites
-    const existingCourse = user.favCourses.find(course => course.courseId  === courseId );
+    const existingCourse = user.favCourses.find(course => course.toString() === courseId);
     if (existingCourse) {
       return res.status(400).json({ error: "Course already added to favorites" });
     }
+
     // Push the new course to favCourses array
-    user.favCourses.push({ courseId, courseName });
+    user.favCourses.push(courseId);
     await user.save();
-    res.json(user);
+    
+    res.json({ message: "Course added to favorites successfully", user });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+//userdata fav course
+router.get("/user/favcourses/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Retrieve user's favorite courses
+    const favCourses = await Course.find({ _id: { $in: user.favCourses } });
+
+    res.json({  favoriteCourses: favCourses });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });

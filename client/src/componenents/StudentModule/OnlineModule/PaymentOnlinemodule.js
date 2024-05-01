@@ -26,8 +26,13 @@ import React ,{useState,useEffect}from "react";
 import { FaDesktop, FaMoneyBill, FaUserGraduate } from "react-icons/fa";
 import moneyImg from "../../../assests/money.jpg"
 import Header from "../../Header";
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+
 import Footer from "../../Footer";
+import axios from 'axios'
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+
+import { useParams } from 'react-router-dom'; 
+import { NavLink,useNavigate } from 'react-router-dom'
 
 
 export default function PaymentOnlinemodule() {
@@ -39,63 +44,45 @@ export default function PaymentOnlinemodule() {
   const [cardElement, setCardElement] = useState(null);
   const [loading, setLoading] = useState(false);
  
-  const fetchPaymentIntentClientSecret = async () => {
-    const response = await fetch("/api/users/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
-    const { clientSecret, error } = await response.json();
-    return { clientSecret, error };
-  };
 
-  const handlePayPress = async () => {
+  const [error, setError] = useState(null);
+  const { userId,teacherId,price } = useParams(); 
+
+  const navigate=useNavigate();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
-      const { clientSecret, error } = await fetchPaymentIntentClientSecret();
+      const { data } = await axios.post(`/api/users/create-payment-intent/${userId}/${teacherId}/${price}`, {
+        amount:price// Amount in cents
+      });
 
-      if (error) {
-        console.log("Unable to process payment");
-        return;
-      }
-
-      const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
+      const { clientSecret } = data;
+      const paymentResult = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: cardElement,
-          billing_details: { email },
+          card: elements.getElement(CardElement),
         },
       });
 
-      if (confirmError) {
-        console.log("Payment Confirmation Error:", confirmError.message);
-        alert(`Payment Confirmation Error: ${confirmError.message}`);
+      if (paymentResult.error) {
+        setError(paymentResult.error.message);
       } else {
-        console.log("Payment Successful ", paymentIntent);
-        alert("Payment Successful");
+        console.log(paymentResult);
+        navigate(`/specifiteacher/${teacherId}`);
+        // navigate({`/homeclass/${teacherId}`});
+        // Payment successful, handle success
       }
     } catch (error) {
-      console.log("Error:", error);
+      setError('Error processing payment');
     }
 
     setLoading(false);
   };
-  // const handleStripePayment = async () => {
-  //   try {
-  //     const response = await fetch("/create-payment-intent", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     const data = await response.json();
-  //     setClientSecret(data.clientSecret);
-  //   } catch (error) {
-  //     console.error("Error fetching client secret:", error);
-  //   }
-  // };
+
+
+ 
   return (
     <>
     <Header/>
@@ -112,45 +99,35 @@ export default function PaymentOnlinemodule() {
       {/* Right Section with Pricing Options */}
       <div className="md:w-1/2 md:ml-6">
         <h2 className="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-6">
-          Pricing Options
+        Payment
         </h2>
         <div className="bg-white flex flex-col w-full md:py-8">
-          <button    onClick={handlePayPress}className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+          <button   className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
             <a  className="flex items-center text-white">
-              <FaDesktop className="mr-2" />
-              Online
+         
+              <FaMoneyBill className="mr-2 " />  Add details
             </a>
           </button>
-          <div style={{flex: 1,
-      justifyContent: "center",
-      margin: 20}}>
-      
-      <input
-        placeholder="E-mail"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{backgroundColor: "#efefef",
-        borderRadius: 8,
-        fontSize: 20,
-        height: 50,
-        padding: 10,
-        marginBottom: 20,}}
-      />
-      <button onClick={handlePayPress} disabled={loading}>Pay</button>
-    </div>
+        
+      <CardElement className="border-2 border-customBlue p-4 rounded-l-lg"/>
+      <button type="submit" disabled={!stripe || loading}>
+        {loading ? 'Processing...' : 'Pay'}
+        <button onClick={handleSubmit}className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+            <a  className="flex items-center text-white">
+          
+              Done
+            </a>
+          </button>
+      </button>
+      {/* {error && <div>{error}</div>} */}
+{/*   
           <button className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
             <a href="/cash" className="flex items-center text-white">
               <FaMoneyBill className="mr-2 " />
               Cash
             </a>
           </button>
-          <button className="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-            <a href="/specifiteacher" className="flex items-center text-white">
-              <FaUserGraduate className="mr-2 " />
-              Done
-            </a>
-          </button>
+          */}
         </div>
       </div>
     </div>

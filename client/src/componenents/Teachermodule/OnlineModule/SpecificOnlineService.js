@@ -175,12 +175,14 @@
 import React, { useState } from 'react';
 import Header from '../../Header'
 import Footer from '../../Footer'
+import { useParams } from 'react-router-dom'; 
 import { AiOutlineFilePdf, AiOutlineVideoCamera, AiOutlineShareAlt } from 'react-icons/ai';
 import { MdDescription } from 'react-icons/md';
 import { RiGroupLine } from 'react-icons/ri'; // React Icons
 import { UserOutlined } from '@ant-design/icons'; // Ant Design
 
 export default function SpecificOnlineService() {
+  const {teacherIdd } = useParams(); 
   const [showStudents, setShowStudents] = useState(false); 
   const [material, setMaterial] = useState({
     type: '',
@@ -322,7 +324,7 @@ export default function SpecificOnlineService() {
     <Header/>
      <div>
      <div className="px-4 sm:px-0">
-       <h3 className="text-base font-semibold leading-7 text-gray-900">Applicant Information</h3>
+       <h3 className="text-base font-semibold leading-7 text-gray-900">Applicant Information {teacherIdd}</h3>
        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
     
       <div className="flex items-center mt-4 cursor-pointer" onClick={toggleStudentList}>

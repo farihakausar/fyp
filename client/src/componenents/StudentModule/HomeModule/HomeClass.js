@@ -53,15 +53,64 @@
 //    </>
 //   )
 // }
-import React from "react";
+
 import img1 from "../../../assests/course.jpeg";
 import Header from "../../Header";
 import Footer from "../../Footer";
-
+import { useParams } from 'react-router-dom';
+import axios from "axios";
+import React ,{useState,useEffect}from "react";
 export default function HomeClass() {
+  const [teacherRequest, setTeacherRequest] = useState();
+  const { teacherId} = useParams(); 
+  useEffect(() => {
+    const fetchTeacherRequest = async () => {
+      try {
+        const response = await axios.get(`/api/teacher/service-request/${teacherId}`);
+        setTeacherRequest(response.data);
+        console.log("teacher specific", response.data);
+      } catch (error) {
+        console.error('Error fetching teacher request:', error);
+        // Handle any errors or display error messages here
+      }
+    };
+  
+    // Call the fetchTeacherRequest function when the component mounts
+    fetchTeacherRequest();
+  
+    // Clean up function (optional)
+    return () => {
+      // Any cleanup code here, if needed
+    };
+  }, [teacherId]); // Add teacherId to the dependency array
+  
+  // useEffect(() => {
+  //   const fetchTeacherRequest = async () => {
+  //     try {
+  //       const response = await axios.get(`/api/teacher/service-request/${teacherId}`);
+  //       setTeacherRequest(response.data);
+       
+  //       console.log("teacher speicf",response.data)
+  //     } catch (error) {
+  //       console.error('Error fetching teacher request:', error);
+  //       // Handle any errors or display error messages here
+  //     }
+  //   };
+
+  //   // Call the fetchTeacherRequest function when the component mounts
+ 
+  //   fetchTeacherRequest();
+
+  //   // Clean up function (optional)
+  //   return () => {
+  //     // Any cleanup code here, if needed
+  //   };
+  // }, []);
   return (
     <>
     <Header/>
+    {teacherRequest ? (
+       <>
     <div className="flex flex-col md:flex-row items-center justify-center p-12 bg-blue-700 text-gray-800">
       <div className="md:w-1/2 p-4">
         <div className="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
@@ -72,8 +121,11 @@ export default function HomeClass() {
           />
           <div className="flex-grow sm:pl-8">
             <h2 className="title-font font-medium text-lg text-white">Name</h2>
-            <h3 className="text-gray-200 mb-3">UI Developer</h3>
+            <h3 className="text-gray-200 mb-3">UI Developer{teacherRequest.course}</h3>
+            <h3 className="text-gray-200 mb-3">UI Developer{teacherRequest.timing}</h3>
+            <h3 className="text-gray-200 mb-3">UI Developer{teacherRequest.address}</h3>
             <p className="mb-4 text-gray-200">
+
               DIY tote bag drinking vinegar cronut adaptogen squid fanny pack
               vaporware.
             </p>
@@ -119,6 +171,9 @@ export default function HomeClass() {
         </button>
       </div>
     </div>
+    </> ):
+         <p className='text-black'>losdpkp</p>
+            }
     <Footer/>
     </>
   );

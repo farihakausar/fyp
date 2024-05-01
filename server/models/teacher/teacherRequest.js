@@ -20,7 +20,7 @@ const teacherServiceRequestSchema = new mongoose.Schema({
             type: Number,
             // required: true
         },
-        aboutCourse: {
+        about: {
             type: String
         },
         timing: {

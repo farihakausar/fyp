@@ -127,13 +127,41 @@ import courseImg from "../../assests/coursem.jpeg";
 
 export default function CourseDetail() {
   const [teacherRequest, setTeacherRequest] = useState(null);
+  const [ courseId,  setCourseId] = useState();
   const { id } = useParams(); 
+  const [userData,setUserData]=useState()
+  const [userId,setUserId]=useState()
+  const getPdf= async()=>{
+    try {
+      const resgh=await fetch('/api/users/about',{
+        method:"GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type":"application/json"
+        }
+      })
+      const data =await resgh.json()
+      setUserData(data)
+      setUserId(data._id)
+      console.log(data,"datafromabout")
+      if(!res.status===200){
+        const error=new Error(res.error)
+        throw error
+
+      }
+    } catch (error) {
+      // history.push("/login")
+      console.log("nkljkl")
+    }
+  }
+
   useEffect(() => {
     const fetchTeacherRequest = async () => {
       try {
         const response = await axios.get(`/api/admin/courses/${id}`);
         setTeacherRequest(response.data);
-        console.log("teacher speicf",response.data)
+        setCourseId(response.data._id);
+        console.log("teacher speicf",response.data._id)
       } catch (error) {
         console.error('Error fetching teacher request:', error);
         // Handle any errors or display error messages here
@@ -141,6 +169,7 @@ export default function CourseDetail() {
     };
 
     // Call the fetchTeacherRequest function when the component mounts
+    getPdf();
     fetchTeacherRequest();
 
     // Clean up function (optional)
@@ -151,6 +180,8 @@ export default function CourseDetail() {
   return (
     <>
     <Header />
+    {userData ? (
+       <>
     {teacherRequest && (
       <>
     <div className="bg-blue-50 py-6 sm:py-8 lg:py-12">
@@ -175,10 +206,10 @@ export default function CourseDetail() {
             <div className="md:py-8">
               <div className="mb-2 md:mb-3">
                 <span className="mb-0.5 inline-block text-gray-500">
-                  Fancy Brand
+                 
                 </span>
                 <h2 className="text-2xl font-bold text-gray-800 lg:text-3xl">
-                  Course Name {teacherRequest.courseName}
+                   {teacherRequest.courseName}
                 </h2>
               </div>
 
@@ -218,9 +249,9 @@ export default function CourseDetail() {
                 <span className="text-sm text-blue-500 font-bold">
                   Technologies
                 </span>
-                <span className="text-sm">HTML, CSS, JavaScript {teacherRequest.tech}</span>
+                <span className="text-sm"> {teacherRequest.tech}</span>
                 <span className="text-sm text-blue-500 font-bold">Tools</span>
-                <span className="text-sm">VS Code {teacherRequest.tool}</span>
+                <span className="text-sm"> {teacherRequest.tool}</span>
               </div>
 
               <div className="flex gap-2.5">
@@ -231,7 +262,7 @@ export default function CourseDetail() {
                   Enrolled
                 </a>
                 <a
-                  href="/fav"
+                  href={`/fav/${userId}/${courseId}`}
                   className="inline-block rounded-lg bg-gray-200 px-4 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base"
                 >
                   <svg
@@ -258,16 +289,7 @@ export default function CourseDetail() {
 
                 <p className="text-gray-500">
                 {teacherRequest.courseDesc}
-                  This is a section of some simple filler text, also known as
-                  placeholder text. It shares some characteristics of a real
-                  written text but is random or otherwise generated. It may be
-                  used to display a sample of fonts or generate text for
-                  testing.
-                  <br />
-                  <br />
-                  This is a section of some simple filler text, also known as
-                  placeholder text. It shares some characteristics of a real
-                  written text but is random or otherwise generated.
+                 
                 </p>
               </div>
             </div>
@@ -278,6 +300,10 @@ export default function CourseDetail() {
     <Footer/>
     </>
   )}
+
+</> ):
+         <p className='text-black'>losdpkp</p>
+            }
     </>
   );
 }

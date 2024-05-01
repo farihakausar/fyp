@@ -82,12 +82,13 @@ router.post("/register", upload.single("photo"), async (req, res) => {
   const nameing = req.body.nameing;
   const email = req.body.email;
   const interestedSubjects = req.body.interestedSubjects;
+  const  about = req.body.about;
 
   const  password = req.body.password;
   const  cpassword = req.body.cpassword;
   // const photo = req.file.filename;
   try {
-    let user1=await User.create({nameing: nameing,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
+    let user1=await User.create({nameing: nameing,email:email,about:about,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
     
     
     // const token = req.cookies.jwtoken;

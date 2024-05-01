@@ -113,14 +113,14 @@ router.post("/register", upload.single("photo"), async (req, res) => {
   // console.log(req.file);
   const name = req.body.name;
   const email = req.body.email;
-  const experience = req.body.experience;
+  const  experience = req.body.experience;
   const specialty = req.body.specialty;
 
   const  password = req.body.password;
   const  cpassword = req.body.cpassword;
   // const photo = req.file.filename;
   try {
-    let user1=await TeacherRequest.create({name: name,email:email,experience:experience,specialty:specialty,password:password,cpassword:cpassword});
+    let user1=await TeacherRequest.create({name: name,email:email, experience: experience,specialty:specialty,password:password,cpassword:cpassword});
     
     console.log(user1,"jkhkndoen")
     // const token = req.cookies.jwtoken;
@@ -142,7 +142,7 @@ router.get('/about',authing,(req,res)=>{
 
 
 
-
+// home
 router.post("/service-request/:teacherId", async (req, res) => {
   try {
       const {
@@ -167,6 +167,40 @@ router.post("/service-request/:teacherId", async (req, res) => {
           price,
           educationDetail,
           cv
+      });
+console.log(serviceRequest,"doen service requestnew dat")
+      teacherRequest.serviceRequests.push(serviceRequest); // Push the entire serviceRequest document
+      await teacherRequest.save();
+
+      res.json({ message: "Service request created successfully" });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server Error" });
+  }
+});
+// online
+router.post("/service-requestonline/:teacherId", async (req, res) => {
+  try {
+      const {
+          course,
+         educationDetail,
+          cv,
+          price,
+         about
+      } = req.body;
+
+      const teacherRequest = await TeacherRequest.findById(req.params.teacherId);
+      if (!teacherRequest) {
+          return res.status(404).json({ message: "Teacher request not found" });
+      }
+
+      const serviceRequest = await TeacherServiceRequest.create({
+          teacher: req.params.teacherId,
+          course,
+         educationDetail,
+          cv,
+          price,
+         about
       });
 console.log(serviceRequest,"doen service requestnew dat")
       teacherRequest.serviceRequests.push(serviceRequest); // Push the entire serviceRequest document
@@ -341,6 +375,7 @@ router.put("/teacher-requests/:id", async (req, res) => {
 });
 
 router.get("/teacher-requests", async (req, res) => {
+
   try {
     const requests = await TeacherRequest.find({});
     res.status(200).json(requests);
@@ -350,19 +385,74 @@ router.get("/teacher-requests", async (req, res) => {
   }
 });
 
-router.get("/teacher-requests/:id", async (req, res) => {
-  const { id } = req.params;
-
+router.get("/service-request/:teacherId", async (req, res) => {
+  const { teacherId } = req.params;
   try {
-    const request = await TeacherRequest.findById(id);
-    if (!request) {
-      return res.status(404).json({ message: "Teacher request not found" });
+    const teacherRequest = await TeacherServiceRequest.findById(teacherId);
+
+    if (!teacherRequest) {
+      return res.status(404).json({ message: "Teacher service request not found" });
     }
-    res.status(200).json(request);
+
+    res.status(200).json({ teacherRequest });
   } catch (error) {
-    console.error("Error fetching teacher request:", error);
+    console.error("Error fetching teacher service request data:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+//spedic teacher status pending
+router.get("/teacher-requestspending/:teacherId", async (req, res) => {
+  const { teacherId } = req.params;
 
+  try {
+    const teacher = await TeacherRequest.findById(teacherId);
+
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found" });
+    }
+
+    // Retrieve the service requests associated with the teacher
+    const serviceRequests = await TeacherServiceRequest.find({ teacher: teacherId, status: "pending" });
+console.log("rsmlmdl",serviceRequests)
+    res.status(200).json({ serviceRequests });
+  } catch (error) {
+    console.error("Error fetching teacher data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+router.get("/teacher-requestsapprove/:teacherId", async (req, res) => {
+  const { teacherId } = req.params;
+
+  try {
+    const teacher = await TeacherRequest.findById(teacherId);
+
+    if (!teacher) {
+      return res.status(404).json({ message: "Teacher not found" });
+    }
+
+    // Retrieve the service requests associated with the teacher
+    const serviceRequests = await TeacherServiceRequest.find({ teacher: teacherId, status: "approved" });
+
+    res.status(200).json({ serviceRequests });
+  } catch (error) {
+    console.error("Error fetching teacher data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+router.get("/teacherspecificrequest/:teacherIdd", async (req, res) => {
+  const { teacherIdd } = req.params;
+
+  try {
+    const teacherRequest = await TeacherServiceRequest.findById(teacherIdd);
+
+    if (!teacherRequest) {
+      return res.status(404).json({ message: "Teacher service request not found" });
+    }
+
+    res.status(200).json({ teacherRequest });
+  } catch (error) {
+    console.error("Error fetching teacher service request data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 module.exports = router;

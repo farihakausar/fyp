@@ -400,12 +400,7 @@ useEffect(() => {
                About
               </h2>
               <p className="text-gray-600 leading-relaxed">
-                Live-edge letterpress cliche, salvia fanny pack humblebrag
-                narwhal portland. VHS man braid palo santo hoodie brunch trust
-                fund. Bitters hashtag waistcoat fashion axe chia unicorn. Plaid
-                fixie chambray 90's, slow-carb etsy tumeric. Cray pug you
-                probably haven't heard of them hexagon kickstarter craft beer
-                pork chic.
+               {userData.about}
               </p>
             </div>
             <div className="mt-8 space-y-4">
@@ -416,7 +411,7 @@ useEffect(() => {
               {userData.interestedSubjects}
               </p>
               <h2 className="text-2xl font-medium text-gray-900 mt-8 mb-4">
-                Want to Join as
+                Select Service
               </h2>
               <div className="flex flex-col space-y-4">
                 <button className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-6 rounded-lg">

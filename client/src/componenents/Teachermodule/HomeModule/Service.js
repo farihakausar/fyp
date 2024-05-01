@@ -140,7 +140,7 @@ useEffect(() => {
                {userData.name}
              
               </h2>
-              <p className="text-gray-600">UI Developer </p>
+          
               {/* <p className="text-gray-600">UI Developer {userData.specialty}</p> */}
               <p className="text-sm text-gray-500">
                {userData.specialty}
@@ -150,7 +150,7 @@ useEffect(() => {
           </div>
 
           {/* Description Section */}
-          <div className="mb-8">
+          {/* <div className="mb-8">
             <h2 className="text-2xl font-medium text-gray-900 mb-4">
               Description
             </h2>
@@ -161,7 +161,7 @@ useEffect(() => {
               chambray 90's, slow-carb etsy tumeric. Cray pug you probably
               haven't heard of them hexagon kickstarter craft beer pork chic.
             </p>
-          </div>
+          </div> */}
 
           {/* Interested Subjects Section */}
           <div className="mb-8">

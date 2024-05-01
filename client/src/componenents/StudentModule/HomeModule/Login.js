@@ -109,6 +109,7 @@ export default function Login() {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [cpassword, setCpassword] = useState()
+  const [about, setAbout] = useState()
 
   const [interestedSubjects, setInterestedSubjects] = useState()
   const[photo,setPhoto]=useState()
@@ -154,6 +155,7 @@ export default function Login() {
     formData.append("password", password);
     formData.append("cpassword",cpassword);
     formData.append("email", email);
+    formData.append("about", about);
   
     formData.append("interestedSubjects", interestedSubjects);
     formData.append("photo", photo);
@@ -197,6 +199,10 @@ export default function Login() {
         <input type="email" id="email" name="email"  value={email}
 
 onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+      </div>
+      <div class="relative mb-4">
+        <label for="about" class="leading-7 text-sm text-white">About</label>
+        <textarea id="about" name="about"  placeholder="Enter Education Background"value={about} onChange={(e)=>setAbout(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
       </div>
       <div class="relative mb-4">
         <label for="interestedSubjects" class="leading-7 text-sm text-white">Interested Subjects</label>

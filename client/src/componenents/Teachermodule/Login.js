@@ -26,7 +26,7 @@ export default function Login() {
     formData.append("email", email);
   
     formData.append("specialty",   specialty);
-    formData.append(" experience",    experience);
+    formData.append("experience",  experience);
     formData.append("photo", photo);
     // formData.append("file", file);
     // console.log(title, file);
@@ -119,8 +119,8 @@ onChange={(e)=>setEmail(e.target.value)} class="w-full bg-white rounded border b
         <textarea id="  specialty" name="  specialty" value={  specialty} onChange={(e)=>setSpecialty(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
       </div>
       <div class="relative mb-4">
-        <label for="  experience" class="leading-7 text-sm text-white">  experience</label>
-  <textarea id="  experience" name="  experience" value={    experience} onChange={(e)=>setExperience(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+        <label for="experience" class="leading-7 text-sm text-white">  experience</label>
+  <textarea id="experience" name="experience" value={experience} onChange={(e)=>setExperience(e.target.value)} class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
       </div>
       <div class="relative mb-4">
         <label for="password" class="leading-7 text-sm text-white">Password </label>

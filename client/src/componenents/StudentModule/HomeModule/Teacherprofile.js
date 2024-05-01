@@ -7,12 +7,42 @@ import { EnvironmentOutlined, ClockCircleOutlined, StarFilled ,DollarOutlined} f
 
 export default function Teacherprofile() {
   const [teacherRequest, setTeacherRequest] = useState(null);
+  const [teacherId,  setTeacherId] = useState();
   const { id } = useParams(); 
+  const [userData,setUserData]=useState()
+  const [userId,setUserId]=useState()
+  const [price,setPrice]=useState()
+  const getPdf= async()=>{
+    try {
+      const resgh=await fetch('/api/users/about',{
+        method:"GET",
+        headers:{
+          Accept:"application/json",
+          "Content-Type":"application/json"
+        },credentials:"include"
+      })
+      const data =await resgh.json()
+      setUserData(data)
+      setUserId(data._id)
+      console.log(data,"datafromabout")
+      if(!res.status===200){
+        const error=new Error(res.error)
+        throw error
+
+      }
+    } catch (error) {
+      // history.push("/login")
+      console.log("nkljkl")
+    }
+  }
+
   useEffect(() => {
     const fetchTeacherRequest = async () => {
       try {
         const response = await axios.get(`/api/teacher/teacher-request/approve/${id}`);
         setTeacherRequest(response.data);
+        setTeacherId(response.data._id);
+        setPrice(response.data.price);
         console.log("teacher speicf",response.data)
       } catch (error) {
         console.error('Error fetching teacher request:', error);
@@ -21,6 +51,7 @@ export default function Teacherprofile() {
     };
 
     // Call the fetchTeacherRequest function when the component mounts
+    getPdf();
     fetchTeacherRequest();
 
     // Clean up function (optional)
@@ -29,98 +60,7 @@ export default function Teacherprofile() {
     };
   }, []);
   return (
-  //  <>
-  //  <div class="p-4 lg:w-1/2">
-  //       <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-  //         <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200"/>
-  //         <div class="flex-grow sm:pl-8">
-  //           <h2 class="title-font font-medium text-lg text-gray-900">Name</h2>
-  //           <h3 class="text-gray-500 mb-3">UI Developer</h3>
-  //           <p class="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
-          
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div class="p-12  flex flex-col items-start">
-        
-  //       <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900 mt-4 mb-2">Description</h2>
-  //       <p class="leading-relaxed mb-8">Live-edge letterpress cliche, salvia fanny pack humblebrag narwhal portland. VHS man braid palo santo hoodie brunch trust fund. Bitters hashtag waistcoat fashion axe chia unicorn. Plaid fixie chambray 90's, slow-carb etsy tumeric. Cray pug you probably haven't heard of them hexagon kickstarter craft beer pork chic.</p>
-      
-  //       </div>
-  //     <div class="p-12  flex flex-col items-start">
-        
-  //       <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900  mb-4">address</h2>
-  //       <p class="leading-relaxed mb-8">Live-edge letterpress cliche,.</p>
-        
-  //       <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900  mb-4">avaablitys</h2>
-  //       <p class="leading-relaxed mb-8">Live-edge letterpress cliche,.</p>
-  //       <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-900  mb-4">specilizty</h2>
-  //       <p class="leading-relaxed mb-8">Live-edge letterpress cliche,.</p>
-
-  //       <div className='lg:w-1/3 md:w-1/2 bg-white flex flex-row md:m-auto w-full md:py-8 mt-8 md:mt-0'>
-  //       <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/book'>Book</a></button>
-  //       <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/createchat'>Chat</a></button>
-        
-  //       </div>
-  //       </div>
-   
-  //  </>
-//   <>
-//   <Header/>
-  
-//   <div className="min-w-0 bg-gray-100 flex-1">
-       
-        
-//       </div>
-//   <div class="p-4 lg:w-1/2  rounded-lg">
-//     <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center  sm:text-left">
-      
-//         <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4" src="https://dummyimage.com/200x200"/>
-//         <div class="flex-grow sm:pl-8">
-          
-     
-//             <h2 class="title-font font-medium text-lg text-customBlue"> taecherName </h2>
-//             <h3 class="text-gray-500 mb-3"> <StarFilled className="mr-2" /> UI Developer</h3>
-          
-//             <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-        
-//           <div className="mt-2 flex items-center text-sm text-gray-500">
-//             {/* <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" /> */}
-//             <EnvironmentOutlined className="mr-2" /> 
-//             Remote
-//           </div>
-//           <div className="mt-2 flex items-center text-sm text-gray-500">
-//             {/* <MapPinIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" /> */}
-//             <StarFilled className="mr-2" /> 
-         
-//           specila
-//           </div>
-//           <div className="mt-2 flex items-center text-sm text-gray-500">
-//           <DollarOutlined className="mr-2" /> Price
-//             $120k &ndash; $140k
-//           </div>
-//           <div className="mt-2 flex items-center text-sm text-gray-500">
-//             {/* <CalendarIcon className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" /> */}
-//             <ClockCircleOutlined className="mr-2" />
-//             Closing on January 9, 2020
-//           </div>
-//         </div>
-//         </div>
-//     </div>
-// </div>
-// <div class="p-12  rounded-lg mt-4">
-//     <h2 class="sm:text-3xl text-2xl title-font font-medium text-customBlue mb-2">Description</h2>
-//     <p class="leading-relaxed mb-8">Live-edge letterpress cliche, salvia fanny pack humblebrag narwhal portland. VHS man braid palo santo hoodie brunch trust fund. Bitters hashtag waistcoat fashion axe chia unicorn. Plaid fixie chambray 90's, slow-carb etsy tumeric. Cray pug you probably haven't heard of them hexagon kickstarter craft beer pork chic.</p>
-// </div>
-
-//     <div class="lg:w-1/3 md:w-1/2 flex flex-row md:m-auto w-full md:py-8 mt-8 md:mt-0">
-//         <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/book'>Book</a></button>
-//         <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/createchat'>Chat</a></button>
-//     </div>
-
-
-//   <Footer/>
-//   </>
+ 
 <>
   <Header />
   {teacherRequest && (
@@ -165,7 +105,7 @@ export default function Teacherprofile() {
       </div>
 
       <div class="lg:w-1/3 md:w-1/2 flex flex-row md:m-auto w-full md:py-8 mt-8 md:mt-0">
-        <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/payment'>Book</a></button>
+        <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a  href={`/payment/${userId}/${teacherId}/${price}`}>Book</a></button>
         <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/createchat'>Chat</a></button>
       </div>
     </>

@@ -2,6 +2,7 @@ const express=require("express");
 const cors=require("cors");
 const cookieParser=require("cookie-parser")
 const app=express();
+const stripe = require('stripe')('sk_test_51Og5cTJ7pz3TsDzfIWpcaLz5zF1CIvNufxvxC95qYeu9Ay34G5eCeD4OyEJi64I4ple15BNiVrEElqmCEaefvYpE00xAtRInFM');
 
 const dbConfig=require("./db")
 const port=process.env.PORT||5000;
@@ -31,6 +32,12 @@ app.use("/api/admin",Admin);
 app.listen(5000,()=>{
     console.log(`serverr is lientimg to ${port} `);
 })
+
+
+
+
+
+// });////////////////////////
 // image ///
 // const express = require('express');
 // const cloudinary = require('cloudinary').v2;

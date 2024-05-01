@@ -11,6 +11,7 @@ export default function AddHomeService() {
   const [address, setAddress] = useState('');
   const [educationDetail, setEducationDetail] = useState('');
   const { teacherId } = useParams(); 
+
   const navigate=useNavigate();
   const [cv, setCV] = useState('');
   const handleAddService = async () => {
@@ -96,18 +97,7 @@ export default function AddHomeService() {
             </div>
           </div>
           <div>
-            <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-blue-600 italic">
-            name
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="text"
-                name="last-name"
-                id="last-name"
-                autoComplete="family-name"
-                className="block w-full rounded-md border-2 border-blue-500 px-3.5 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+         
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="company" className="block text-sm font-semibold leading-6 text-blue-600 italic">
@@ -215,7 +205,7 @@ export default function AddHomeService() {
             className="block w-full    rounded-md bg-customBlue px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-customBlue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
            
-       <a href="/teacheraddedservices">   Add</a>  
+       <a href={`/teacheraddedservices/${teacherId}`}>   Add</a>  
             </button>
         </div>
       </form>

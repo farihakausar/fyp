@@ -397,20 +397,7 @@ export function AddedCourse () {
                   <th>pdf file</th>
                   </tr>
                </thead>
-                {/* <tbody>
-              
-                          <tr style={{ fontFamily: 'Arial',fontSize:'16px', color: 'blue', color:"white" }}>
-                          <td><a href="/specificCourse">this</a></td>
-  <td><a href="/specificCourse">this</a></td>
-  <td><a href="/specificCourse">this</a></td>
-  <td><a href="/specificCourse">this</a></td>
-  <td><a href="/specificCourse">this</a></td>
-  <td><a href="/specificCourse">this</a></td>
-                            
-                           
-                          </tr>
-                     
-                </tbody> */}
+                
                  <tbody>
               {rooms.length &&
                 rooms.map((room) => {
