@@ -132,7 +132,7 @@ useEffect(() => {
           <div className="flex items-center mb-8">
             <img
               className="rounded-full w-24 h-24 mr-4"
-              src="https://dummyimage.com/200x200"
+              src={userData.photo}
               alt="Profile"
             />
             <div>

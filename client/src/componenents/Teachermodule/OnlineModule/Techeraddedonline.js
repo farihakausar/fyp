@@ -137,11 +137,14 @@ export default function Techeraddedonline() {
                   return (
                     <>
                 
-                <article className="flex max-w-xl  rounded-lg border-dashed border-2 p-4 flex-col items-start justify-between bg-customBlue text-white transition-transform duration-300 transform hover:scale-105">
+              <a  href={`/specifconline/${teacherIdd}`}> 
+              
+               <article className="flex max-w-xl  rounded-lg border-dashed border-2 p-4 flex-col items-start justify-between bg-customBlue text-white transition-transform duration-300 transform hover:scale-105">
   <div className="flex items-center gap-x-4 text-xs">
     <a
-    // href={`/specificService/${post._id}`}
-    href={`/specificService/${teacherIdd}`}
+   
+    // href={`/specificService/${teacherIdd}`}
+    href={`/specifconline/${teacherIdd}`}
       // href='/specificService'
       className="relative z-10 rounded-full bg-gray-50 px-3 font-medium text-black hover:bg-gray-100"
     >
@@ -150,7 +153,7 @@ export default function Techeraddedonline() {
   </div>
   <div className="group relative">
     <h3 className="mt-3 text-lg  leading-6 text-white group-hover:text-gray-600 italic font-bold">
-      <a href='/specificService'>
+      <a>
         <span className="absolute inset-0" />
         {post.course}
       </a>
@@ -169,7 +172,7 @@ export default function Techeraddedonline() {
     </p>
   </div>
 </article>
-
+</a>
                 </>
                   );
                 })}

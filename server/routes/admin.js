@@ -227,11 +227,11 @@ router.post('/courses', async (req, res) => {
   try {
     // Create a new course object using the request body
     const newCourse = new Course({
-      // photo: req.body.photo,
+      photo: req.body.photo,
       courseName: req.body.courseName,
       courseDesc: req.body.courseDesc,
       videoURL: req.body.videoURL,
-      // pptFile: req.body.pptFile,
+      pptFile: req.body.pptFile,
       language: req.body.language,
       tech: req.body.tech,
       tool: req.body.tool

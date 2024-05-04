@@ -93,7 +93,7 @@ function App() {
          <Route path="/chat" element={<Chat/>} />
          <Route path="/myhometutors" element={<MyHometutor/>} />
          <Route path="/detail" element={<Detail/>} />
-         <Route path="/specifiteacher/:teacherId" element={<SpecifcTutor/>} />
+         <Route path="/specifiteacher/:teacherIdd" element={<SpecifcTutor/>} />
          <Route path="/chatonline" element={<Classroom/>} />
          <Route path="/videostearm" element={<VideoStream/>} />
       {/*  */}
@@ -106,12 +106,12 @@ function App() {
          <Route path="/teacheraddedservices/:teacherId" element={<Techeraddedhome/>} />
          <Route path="/homeclasses" element={<Homeclasses/>} />
          <Route path="/editService" element={<EditService/>} />
-         <Route path="/specificService/:teacherIdd" element={<SpecificService/>} />
+         <Route path="/specificService/:teacherId" element={<SpecificService/>} />
 
 
          <Route path="/homeTutor" element={<HomeTutor/>} />
       
-         <Route path="/virtualclassroom" element={<Vitualclassroom/>} />
+         <Route path="/virtualclassroom/:teacherIdd" element={<Vitualclassroom/>} />
     
          <Route path="/onlineHome" element={<OnlineHoem/>} />
       
@@ -120,7 +120,7 @@ function App() {
       
        <Route path="/teacheronlineservices/:teacherId" element={<Techeraddedonline/>} />
   
-       <Route path="/specifconline" element={<SpecificOnlineService/>} />
+       <Route path="/specifconline/:teacherIdd" element={<SpecificOnlineService/>} />
         
 
      
@@ -149,111 +149,16 @@ function App() {
 export default App;
 
 
+// import React from 'react';
+// import FileFire from './FileFire';
 
-//   import React from 'react'
-//   import axios from 'axios'
-//   export default function App() {
-//   const handleChange=(e)=>{
-//   e.preventDefault();
-//   const formData=new FormData()
-//   formData.append("photo",e.target.files[0])
-//   axios.post("/api/uploadfile/registerphoto",formData)
-//     .then((res)=>{console.log(res.data)})
-//   .catch((err)=>{console.log(err)})
-//   }
-//     return (
-//      <>
-//      <label htmlFor='file_picker' style={{color:"black"}}>
-//       <input type="file" name='file_picker'id='file_picker'onChange={(e)=>{handleChange(e)}}/>
-//      </label>
-   
-//      </>
-//     )
-//   }
+// const App = () => {
+//   return (
+//     <div>
+//       <h1>File Upload Demo</h1>
+//       <FileFire />
+//     </div>
+//   );
+// };
 
-
-//   import React, { useState } from 'react';
-//   import axios from 'axios';
-
-//   const App = () => {
-//     const [file, setFile] = useState(null);
-
-//     const handleFileChange = (event) => {
-//       setFile(event.target.files[0]);
-//     };
-
-//     const handleSubmit = async (event) => {
-//       event.preventDefault();
-//       const formData = new FormData();
-//       formData.append('image', file);
-//       try {
-//         await axios.post('http:localhost:3001/upload', formData, {
-//           headers: {
-//             'Content-Type': 'multipart/form-data'
-//           }
-//         });
-//         alert('Image uploaded successfully');
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     };
-
-//     return (
-//       <form onSubmit={handleSubmit}>
-//         <input type="file" onChange={handleFileChange} />
-//         <button type="submit">Upload</button>
-//       </form>
-//     );
-//   };
-
-//   export default App
-
-//   import React, { useState } from 'react';
-//   import axios from 'axios';
-
-//   const App = () => {
-//     const [file, setFile] = useState(null);
-
-//     const handleFileChange = (event) => {
-//       setFile(event.target.files[0]);
-//     };
-
-//     const handleSubmit = async (event) => {
-//       event.preventDefault();
-//       const formData = new FormData();
-//       formData.append('pdf', file);
-//       try {
-//         const response = await axios.post('/upload-pdf', formData, {
-//           headers: {
-//             'Content-Type': 'multipart/form-data'
-//           }
-//         });
-//         console.log('PDF uploaded successfully:', response.data.url);
-//          Handle the response, e.g., display success message or update UI
-//       } catch (error) {
-//         console.error('Error uploading PDF:', error);
-//          Handle error, e.g., display error message to user
-//       }
-//     };
-
-//     return (
-//       <form onSubmit={handleSubmit}>
-//         <input type="file" accept=".pdf" onChange={handleFileChange} />
-//         <button type="submit">Upload PDF</button>
-//       </form>
-//     );
-//   };
-
-//   export default App;
-
-//  App.js
-
-
-
-
-
-
-
-
-
-
+// export default App;

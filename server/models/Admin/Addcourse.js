@@ -32,11 +32,11 @@ const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema(
   {
-    // photo: String,
+    photo: String,
     courseName: String,
     courseDesc: String,
     videoURL: String,
-  //  pptFile: String,
+   pptFile: String,
    language: {
     type: String,
     enum: ['English', 'Urdu', 'Mexican'], // Define possible language options

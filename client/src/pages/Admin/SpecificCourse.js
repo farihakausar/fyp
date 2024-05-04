@@ -24,9 +24,7 @@ export default function SpecificCourse() {
 
     fetchCourse();
   }, [roomid]);
-  //  const done = `${room._id}`;
-  // const roomId = room._id;
-  //  console.log(roomId )
+ 
   return (
     <>
       <Header/>
@@ -37,37 +35,29 @@ export default function SpecificCourse() {
       <div className="mx-auto max-w-screen-lg px-4 md:px-8">
         <div className="grid gap-8 md:grid-cols-2">
 
-          <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-lg bg-gray-100">
-              <img src="https://images.unsplash.com/flagged/photo-1571366992942-be878c7b10c0?auto=format&q=75&fit=crop&w=600" loading="lazy" alt="Photo by Himanshu Dewangan" className="h-full w-full object-cover object-center" />
-              <span className="absolute left-0 top-0 rounded-br-lg bg-red-500 px-3 py-1.5 text-sm uppercase tracking-wider text-white">sale</span>
-            </div>
-          </div>
 
-          <div className="md:py-8">
+          <div className="">
             <div className="mb-2 md:mb-3">
             {room ? (
               <>
+              
+          <div className="space-y-4">
+            <div className=" overflow-hidden rounded-lg bg-gray-100">
+              <img src={room.photo} loading="lazy" alt="Photo by Himanshu Dewangan" className="h-full w-full  " />
+             
+            </div>
+          </div>
         <span className="mb-0.5 inline-block text-customBlue font-bold text-lg lg:text-3xl">{room.courseName}</span>
         <div className="mb-8 md:mb-10">
               <span className="  font-semibold text-customBlue mb-2">Languages</span>
              
               <div className="flex flex-wrap gap-3">
-                <button type="button" className="flex h-8 w-12 items-center justify-center rounded-md border bg-white text-center text-sm font-semibold text-gray-800 transition duration-100 hover:bg-gray-100 active:bg-gray-200">English</button>
-                <button type="button" className="flex h-8 w-12 items-center justify-center rounded-md border bg-white text-center text-sm font-semibold text-gray-800 transition duration-100 hover:bg-gray-100 active:bg-gray-200">Urdu</button>
-                <span className="flex h-8 w-12 cursor-default items-center justify-center rounded-md border border-indigo-500 bg-indigo-500 text-center text-sm font-semibold text-white">M</span>
-                <button type="button" className="flex h-8 w-12 items-center justify-center rounded-md border bg-white text-center text-sm font-semibold text-gray-800 transition duration-100 hover:bg-gray-100 active:bg-gray-200">L</button>
-                <span className="flex h-8 w-12 cursor-not-allowed items-center justify-center rounded-md border border-transparent bg-white text-center text-sm font-semibold text-gray-400">XL</span>
+                <button type="button" className="flex h-8 w-12 items-center justify-center rounded-md border bg-white text-center text-sm font-semibold text-gray-800 transition duration-100 hover:bg-gray-100 active:bg-gray-200">{room.language}</button>
+              
               </div>
             </div>
 
-            <div className="mb-4">
-              <div className="flex items-end gap-2">
-                <span className="text-xl font-bold text-gray-800 md:text-2xl">$15.00</span>
-                <span className="mb-0.5 text-red-500 line-through">$30.00</span>
-              </div>
-              <span className="text-sm text-gray-500">incl. VAT plus shipping</span>
-            </div>
+         
 
             <div className="mb-6 flex items-center gap-2 text-gray-500">
               <div className="  font-semibold text-customBlue">Technologies:</div>

@@ -33,7 +33,6 @@ export default function Homesection() {
  
     <div className="flex row  text-center">
 
-
 <section class="px-4 py-10 bg-cover bg-center md:px-10 lg:px-20 xl:px-40 2xl:px-80 md:py-20 bg-customBlue" style={{backgroundImage: `url(${logo1})`}}>
   <div class="container mx-auto flex flex-col md:flex-row items-center">
     <div class="md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center text-white">
@@ -49,7 +48,7 @@ export default function Homesection() {
         <a href="/loginTeacher" class="inline-flex hover:bg-white bg-customBlue border-0 py-2 px-6 focus:outline-none hover:bg-gray-300 rounded text-lg ml-4 transition duration-300">Join as Teacher</a> */}
       </div>
     </div>
-  </div>s
+  </div>
 </section>
 
                     

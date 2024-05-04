@@ -5,7 +5,8 @@ import Sidebar from "./Sidebar";
 import { Tabs } from "antd";
 import Header from "./Header";
 
- 
+import { storage } from "../../firebase";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
  
 function Courseinfo() {
 
@@ -60,14 +61,45 @@ export function AddCourse() {
   const [tool, setTool] = useState('');
   const[photo,setPhoto]=useState()
   const [pptFile, setPptFile] = useState(null);
+  const [photoPrec, setPhotoPrec] = useState();
+  const [pptPrec, setPptPrec] = useState();
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('downloadURL', downloadURL);
+        setPhoto(downloadURL); // Set the photo state with the download URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
+  const handlePPt = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('downloadURL', downloadURL);
+        setPptFile(downloadURL); // Set the photo state with the download URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
+
   async function addroom(){
     console.log("Adding new room...");
     const newroom = {
-        // photo,
+        photo,
         courseName,
         courseDesc,
         videoURL,
-        // pptFile,
+        pptFile,
         language,
         tech,
         tool,
@@ -168,7 +200,7 @@ export function AddCourse() {
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label htmlFor="add course name" className="block text-sm font-medium leading-6 text-gray-900">
-              <span className="italic text-blue-500">mTechnlogies</span>
+              <span className="italic text-blue-500">Technlogies</span>
               </label>
               <div className="mt-2">
                 <input
@@ -271,14 +303,15 @@ export function AddCourse() {
                     
                       <span>Upload a file</span>
                       <input
-        style={{ outline: '1px solid #4F46E5' }}
-        type="file"
-        name="photo"
-        placeholder="interestedSubjects"
-        id="photo"
-        onChange={(e)=>{setPhoto(e.target.files[0])}}
-        // onChange={(e) => handleChange(e)}
-      />
+          style={{ outline: '1px solid #4F46E5' }}
+       type="file"
+       name="photo"
+       placeholder="photo"
+       id="photo"
+     
+       onChange={(e) => handleImage(e)}
+     />
+                
                     </label>
                     <br />
                    
@@ -322,6 +355,16 @@ export function AddCourse() {
                     >
                       {/* <span> Upload pdf file</span> */}
                       <input
+          style={{ outline: '1px solid #4F46E5' }}
+       type="file"
+       name="pptFile"
+       accept="application/pdf"
+       placeholder="File"
+       id="pptFile"
+     
+       onChange={(e) => handlePPt(e)}
+     />
+                      {/* <input
                       style={{ outline: '1px solid #4F46E5' }}
           type="file"
           class="form-control"
@@ -329,7 +372,7 @@ export function AddCourse() {
           id="ppt"
           required
           onChange={(e) => setPptFile(e.target.files[0])}
-        />
+        /> */}
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>
@@ -387,14 +430,14 @@ export function AddedCourse () {
              <table className="table table-bordered bg-blue-500 rounded-md" style={{   outline: '1px solid #4F46E5',color: 'white', fontWeight: 'bold' }}>
             <thead className="thead-dark">
                  <tr style={{ fontFamily: 'Arial', fontStyle: 'italic', color: 'blue', color:"white" }}>
-                  <th>Course Nmae</th>
-                  <th>desc</th>
+                  <th>Course Name</th>
+                  <th> Course desc</th>
                
                    
-                     <th>tools</th>
-                     <th>technlogies</th>
-                  <th>photo</th>
-                  <th>pdf file</th>
+                     <th>Tools</th>
+                     <th>Technlogies</th>
+                  <th>Language</th>
+                  {/* <th></th> */}
                   </tr>
                </thead>
                 
@@ -404,19 +447,16 @@ export function AddedCourse () {
                   return (
                     <>
                       <tr>
-                        <td><a href={`/specificCourse/${room._id}`}>{room._id}</a></td>
-                        <td>{room.courseName}</td>
-                        <td>{room.courseDesc}</td>
-                        <td>{room.tool}</td>
+                        {/* <td><a href={`/specificCourse/${room._id}`}>{room._id}</a></td> */}
+                        <td><a href={`/specificCourse/${room._id}`}>{room.courseName}</a></td>
+                        <td><a href={`/specificCourse/${room._id}`}>{room.courseDesc}</a></td>
+                        <td><a href={`/specificCourse/${room._id}`}>{room.tool}</a></td>
                        
-                        <td>{room.tech}</td>
-                      
-                        <td>{room.photo}</td>
-                     
-                        <td>{room.pptFile}</td>
-                        <td>{room.videoURL}</td>
+                        <td><a href={`/specificCourse/${room._id}`}>{room.tech}</a></td>
+                        <td><a href={`/specificCourse/${room._id}`}>{room.language}</a></td>
+
                         <div className="flex gap-2.5">
-              <a  href={`/editcourse/${room._id}`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a>
+              <a  href={`/editcourse/${room._id}`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-2 py-1 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit </a>
             </div>
                       </tr>
                     </>
@@ -430,4 +470,6 @@ export function AddedCourse () {
           </div>
   )
 }
+
+
 

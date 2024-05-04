@@ -73,15 +73,19 @@ console.log(id,"jilj;ok;ok;lmk;lk;")
              <table className="table table-bordered bg-blue-500 rounded-md" style={{   outline: '1px solid #4F46E5',color: 'white', fontWeight: 'bold' }}>
             <thead className="thead-dark">
             <tr style={{ fontFamily: 'Arial', fontStyle: 'italic', color: 'blue', color:"white" }}>
-                  <th> Nmae</th>
-                    <th>specailty</th>
-                    <th>tecaher</th>
+                  <th> Service Name</th>
+                  <th> About Service </th>
+                  <th>Service Timing</th>
+                    <th>Service Price</th>
+                    <th>About Teacher</th>
+                    <th>Status</th>
+                    {/* <th>tecaher</th> */}
                    
-                     <th>timing</th>
-                  <th>home/onine</th>
+                   
+               
                   
-                  <th>Completed on </th>
-                  <th>Certificate dwonload</th>
+                  {/* <th>Completed on </th>
+                  <th>Certificate dwonload</th> */}
                   </tr>
                </thead>
                <tbody>
@@ -90,21 +94,21 @@ console.log(id,"jilj;ok;ok;lmk;lk;")
                   return (
                     <>
                       <tr>
-                        <td><a href={`/detailteacher/${room._id}`}>id {room._id}</a></td>
-                        <td>{room.course}</td>
-                        <td>{room.price}</td>
-                        <td>{room.teacher}</td>
-                        <td>{room.aboutCourse}</td>
-                       
-                        <td>{room.timing}</td>
-                      
-                        <td>{room.address}</td>
                      
-                        <td>{room.educationDetail}</td>
-                        <td>{room.status}</td>
+                        <td><a href={`/detailteacher/${room._id}`}>{room.course}</a></td>
+                        <td><a href={`/detailteacher/${room._id}`}>{room.about}</a></td>
+                        <td><a href={`/detailteacher/${room._id}`}>{room.timing}</a></td>
+                        <td><a href={`/detailteacher/${room._id}`}>{room.price}</a></td>
+                     
+                       
+                     
+                      
+                   
+                     
+                        <td><a href={`/detailteacher/${room._id}`}>{room.educationDetail}</a></td>
+                        <td><a href={`/detailteacher/${room._id}`}>{room.status}</a></td>
                         <div className="flex gap-2.5">
-              {/* <a  href={`/editcourse/${room._id}`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a> */}
-              <a  href='/detailteacher' className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a>
+            
             </div>
                       </tr>
                     </>
@@ -128,14 +132,7 @@ console.log(id,"jilj;ok;ok;lmk;lk;")
                       );
                     })} */}
                      
-                     <tr style={{ fontFamily: 'Arial',fontSize:'16px', color: 'blue', color:"white" }}>
-  <td><a href="/detailteacher">this</a></td>
-  <td><a href="/detailteacher">this</a></td>
-  <td><a href="/detailteacher">this</a></td>
-  <td><a href="/detailteacher">this</a></td>
-  <td><a href="/detailteacher">this</a></td>
-  <td><a href="/detailteacher">this</a></td>
-</tr>
+      
 
                 </tbody>
               </table>
@@ -172,12 +169,13 @@ export function ApprovedTeacher () {
              <table className="table table-bordered bg-blue-500 rounded-md" style={{   outline: '1px solid #4F46E5',color: 'white', fontWeight: 'bold' }}>
             <thead className="thead-dark">
                  <tr>
-                  <th> Nmae</th>
-                    <th>specailty</th>
-                   
-                     <th>ApprovedTeacher on</th>
-                  <th>study details</th>
-                  <th>badge added by admin</th>
+                 <th> Service Name</th>
+                  <th> About Service </th>
+                  <th>Service Timing</th>
+                    <th>Service Price</th>
+                    <th>Address</th>
+                    <th>About Teacher</th>
+                    <th>Status</th>
                   </tr>
                </thead>
                <tbody>
@@ -185,22 +183,32 @@ export function ApprovedTeacher () {
                 rooms.map((room) => {
                   return (
                     <>
-                      <tr>
-                        {/* <td><a href={`/specificCourse/${room._id}`}>{room._id}</a></td> */}
-                        <td>{room.course}</td>
-                        <td>{room.price}</td>
-                        <td>{room.aboutCourse}</td>
-                       
-                        <td>{room.timing}</td>
-                      
-                        <td>{room.address}</td>
+                       <tr>
                      
-                        <td>{room.educationDetail}</td>
-                        <td>{room.status}</td>
-                        <div className="flex gap-2.5">
+                     <td><a href={`/detailteacher/${room._id}`}>{room.course}</a></td>
+                     <td><a href={`/detailteacher/${room._id}`}>{room.about}</a></td>
+                     <td><a href={`/detailteacher/${room._id}`}>{room.timing}</a></td>
+                     <td><a href={`/detailteacher/${room._id}`}>{room.price}</a></td>
+                     <td><a href={`/detailteacher/${room._id}`}>{room.address}</a></td>
+                  
+                    
+                  
+                   
+                
+                  
+                     <td><a href={`/detailteacher/${room._id}`}>{room.educationDetail}</a></td>
+                     <td><a href={`/detailteacher/${room._id}`}>{room.status}</a></td>
+                     <div className="flex gap-2.5">
+         
+         </div>
+                   {/* </tr>
+                      <tr> */}
+                        {/* <td><a href={`/specificCourse/${room._id}`}>{room._id}</a></td> */}
+                      
+                      
               {/* <a  href={`/editcourse/${room._id}`}className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a> */}
-              <a  href='/detailteacher' className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a>
-            </div>
+              {/* <a  href='/detailteacher' className="inline-block flex-1  my-2 rounded-lg bg-customBlue px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base">Edit Course</a> */}
+            
                       </tr>
                     </>
                   );

@@ -8,7 +8,7 @@ const jwt=require("jsonwebtoken")
 const multer = require("multer");
 const auth=require("../middlewares/auth");
 const authing = require("../middlewares/authteacher");
-
+const Material = require('../models/teacher/Material');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -115,12 +115,12 @@ router.post("/register", upload.single("photo"), async (req, res) => {
   const email = req.body.email;
   const  experience = req.body.experience;
   const specialty = req.body.specialty;
-
+  const photo = req.body.photo;
   const  password = req.body.password;
   const  cpassword = req.body.cpassword;
   // const photo = req.file.filename;
   try {
-    let user1=await TeacherRequest.create({name: name,email:email, experience: experience,specialty:specialty,password:password,cpassword:cpassword});
+    let user1=await TeacherRequest.create({name: name,photo:photo,email:email, experience: experience,specialty:specialty,password:password,cpassword:cpassword});
     
     console.log(user1,"jkhkndoen")
     // const token = req.cookies.jwtoken;
@@ -149,8 +149,9 @@ router.post("/service-request/:teacherId", async (req, res) => {
           course,
           address,
           educationDetail,
-          cv,
+          photo,pptFile,
           price,
+          about,
           timing,
       } = req.body;
 
@@ -162,11 +163,11 @@ router.post("/service-request/:teacherId", async (req, res) => {
       const serviceRequest = await TeacherServiceRequest.create({
           teacher: req.params.teacherId,
           course,
-          address,
+          address,about,
           timing,
           price,
           educationDetail,
-          cv
+          photo,pptFile,
       });
 console.log(serviceRequest,"doen service requestnew dat")
       teacherRequest.serviceRequests.push(serviceRequest); // Push the entire serviceRequest document
@@ -184,7 +185,8 @@ router.post("/service-requestonline/:teacherId", async (req, res) => {
       const {
           course,
          educationDetail,
-          cv,
+         pptFile,
+         photo,
           price,
          about
       } = req.body;
@@ -198,7 +200,8 @@ router.post("/service-requestonline/:teacherId", async (req, res) => {
           teacher: req.params.teacherId,
           course,
          educationDetail,
-          cv,
+         pptFile,
+         photo,
           price,
          about
       });
@@ -385,6 +388,40 @@ router.get("/teacher-requests", async (req, res) => {
   }
 });
 
+router.get("/teacher-requests/:teacher", async (req, res) => {
+  const { teacher } = req.params;
+ 
+  try {
+    // Find all teacher requests associated with the given teacher ID
+    const teacherRequests = await TeacherRequest.findById( teacher );
+
+    if (!teacherRequests ) {
+      return res.status(404).json({ message: "No teacher service requests found for the specified teacher" });
+    }
+
+    res.status(200).json({ teacherRequests });
+  } catch (error) {
+    console.error("Error fetching teacher requests:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// router.get("/teacher-requests/:teacher", async (req, res) => {
+//   const { teacher } = req.params;
+ 
+//   try {
+//     const teacherRequest = await TeacherRequest.find(teacher);
+//     if (!teacherRequest) {
+//       return res.status(404).json({ message: "Teacher service request not found" });
+//     }
+
+//     res.status(200).json({ teacherRequest });
+//   } catch (error) {
+//     console.error("Error fetching teacher requests:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// });
+
 router.get("/service-request/:teacherId", async (req, res) => {
   const { teacherId } = req.params;
   try {
@@ -455,4 +492,70 @@ router.get("/teacherspecificrequest/:teacherIdd", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+
+///materil 
+router.post('/teacher-service-request/:id/materials', async (req, res) => {
+  try {
+    const { id } = req.params; // Teacher service request ID
+    const { type, pptFile, description, photo, url, courseTitle,note } = req.body;
+
+    // Check if the teacher service request exists
+    const teacherServiceRequest = await TeacherServiceRequest.findById(id);
+    if (!teacherServiceRequest) {
+      return res.status(404).json({ error: 'Teacher service request not found' });
+    }
+
+    // Create a new material
+    const material = new Material({
+      type,
+      pptFile,
+      description,
+     photo,
+     note,
+      url,
+      courseTitle,
+      teacherServiceRequest: teacherServiceRequest._id // Reference to the teacher service request
+    });
+
+    // Save the material
+    await material.save();
+
+    // Push the material to the teacher service request's materials array
+    teacherServiceRequest.materials.push(material);
+    await teacherServiceRequest.save();
+
+    res.status(201).json({ material });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+router.get('/materials', async (req, res) => {
+  try {
+    // Fetch all materials from the database
+    const materials = await Material.find();
+
+    // Send the materials as a response
+    res.status(200).json({ materials });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+router.get('/materials/:courseId', async (req, res) => {
+  try {
+    const { courseId } = req.params; // Course ID
+    
+    // Fetch all materials associated with the specified course ID
+    const materials = await Material.find({ courseTitle: courseId });
+
+    // Send the materials as a response
+    res.status(200).json({ materials });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 module.exports = router;

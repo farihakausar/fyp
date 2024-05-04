@@ -1,18 +1,49 @@
 import React ,{useState}from 'react'
 import Header from "../../Header";
 import Footer from "../../Footer";
+import { storage } from "../../../firebase";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useParams } from 'react-router-dom'; 
 import axios from "axios";
 import { NavLink,useNavigate } from 'react-router-dom'
 export default function AddOnlineService() {
   const [course, setCourse] = useState('');
   const [about, setAbout] = useState('');
+  const [photo, setPhoto] = useState('');
+  const [pptFile, setPptFile] = useState(null);
   const [price, setPrice] = useState('');
   const [address, setAddress] = useState('');
   const [educationDetail, setEducationDetail] = useState('');
   const { teacherId } = useParams(); 
   const navigate=useNavigate();
-  const [cv, setCV] = useState('');
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('downloadURL', downloadURL);
+        setPhoto(downloadURL); // Set the photo state with the download URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
+  const handlePPt = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('downloadURL', downloadURL);
+        setPptFile(downloadURL); // Set the photo state with the download URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
   const handleAddService = async () => {
     console.log("bnbknknmkm")
     try {
@@ -20,9 +51,9 @@ export default function AddOnlineService() {
         course,
         about,
         price,
-      
-        educationDetail,
-        cv
+        pptFile,
+        photo,
+        educationDetail
       });
       console.log(response.data,"post"); 
       // navigate('/teacheraddedservices')
@@ -74,7 +105,7 @@ export default function AddOnlineService() {
           </div>
           <div>
             <label htmlFor="price" className="block text-sm font-semibold leading-6 text-blue-600 italic">
-           rpice
+           Price
             </label>
             <div className="mt-2.5">
               <input
@@ -86,32 +117,9 @@ export default function AddOnlineService() {
             </div>
           </div>
           <div>
-            <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-blue-600 italic">
-            name
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="text"
-                name="last-name"
-                id="last-name"
-                autoComplete="family-name"
-                className="block w-full rounded-md border-2 border-blue-500 px-3.5 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+          
           </div>
-          {/* <div className="sm:col-span-2">
-            <label htmlFor="company" className="block text-sm font-semibold leading-6 text-blue-600 italic">
-             address
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="text"
-                value={address} onChange={(e) => setAddress(e.target.value)} 
-                autoComplete="organization"
-                className="block w-full rounded-md border-2 border-blue-500 px-3.5 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div> */}
+         
           <div className="sm:col-span-2">
             <label htmlFor="email" className="block text-sm font-semibold leading-6 text-blue-600 italic">
           Education detail
@@ -128,8 +136,40 @@ export default function AddOnlineService() {
             <label htmlFor="email" className=" mt-2 block text-sm font-semibold leading-6 text-blue-600 italic">
           Cv /Resume 
             </label>
-            <input type="file" id="fileUpload" className="mt-3"  name="fileUpload" accept=".jpg, .jpeg, .png, .pdf" />
+            <input
+          style={{ outline: '1px solid #4F46E5' }}
+       type="file"
+       name="pptFile"
+       accept="application/pdf"
+       placeholder="File"
+       id="pptFile"
+     
+       onChange={(e) => handlePPt(e)}
+     />
+           <div className="mt-4 flex text-sm leading-6 text-gray-600">
+             </div>
+            <label htmlFor="email" className=" mt-2 block text-sm font-semibold leading-6 text-blue-600 italic">
+            Servive Photo
+            </label>
+             
+              
+                      
+                      <input
+          style={{ outline: '1px solid #4F46E5' }}
+       type="file"
+       name="photo"
+       placeholder="photo"
+       id="photo"
+     
+       onChange={(e) => handleImage(e)}
+     />
+                
+                  
+                   
+                   
+                 
 
+         
           </div>
           <div className="sm:col-span-2">
           

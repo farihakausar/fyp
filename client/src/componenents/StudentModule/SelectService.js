@@ -381,7 +381,7 @@ useEffect(() => {
             
             <img
               className="rounded-lg w-full h-auto object-cover object-center"
-              src={img1}
+              src={userData.photo}
               alt="Profile"
             />
           </div>

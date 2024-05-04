@@ -27,7 +27,7 @@ const user=mongoose.Schema({
     password: String,
     cpassword: String,
     about: String,
-    imageURL: String,
+    photo: String,
     courses: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'TeacherServiceRequest'

@@ -5,7 +5,8 @@ import Sidebar from "./Sidebar";
 import { Tabs } from "antd";
 import Header from "./Header";
 import { useParams } from 'react-router-dom';
-
+import { storage } from "../../firebase";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 export default function Editcourse() {
   const [courseName, setCourseName] = useState('');
   const [courseDesc, setCourseDesc] = useState('');
@@ -16,6 +17,34 @@ export default function Editcourse() {
   const[photo,setPhoto]=useState()
   const [pptFile, setPptFile] = useState(null);
   const { roomid } = useParams();
+  const handleImage = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('downloadURL', downloadURL);
+        setPhoto(downloadURL); // Set the photo state with the download URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
+  const handlePPt = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        console.log('downloadURL', downloadURL);
+        setPptFile(downloadURL); // Set the photo state with the download URL
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    }
+  };
   const [formData, setFormData] = useState({
     photo: '',
     courseName: '',
@@ -240,6 +269,15 @@ export default function Editcourse() {
                     
                       <span>Upload a file</span>
                       <input
+          style={{ outline: '1px solid #4F46E5' }}
+       type="file"
+       name="photo"
+       placeholder="photo"
+       id="photo"
+     
+       onChange={(e) => handleImage(e)}
+     />
+                      {/* <input
         style={{ outline: '1px solid #4F46E5' }}
         type="file"
         name="photo" value={formData.photo} onChange={handleChange} 
@@ -247,7 +285,7 @@ export default function Editcourse() {
         id="photo"
        
         // onChange={(e) => handleChange(e)}
-      />
+      /> */}
                     </label>
                     <br />
                    
@@ -290,6 +328,16 @@ export default function Editcourse() {
                     >
                       {/* <span> Upload pdf file</span> */}
                       <input
+          style={{ outline: '1px solid #4F46E5' }}
+       type="file"
+       name="pptFile"
+       accept="application/pdf"
+       placeholder="File"
+       id="pptFile"
+     
+       onChange={(e) => handlePPt(e)}
+     />
+                      {/* <input
                       style={{ outline: '1px solid #4F46E5' }}
           type="file"
           class="form-control"
@@ -297,7 +345,7 @@ export default function Editcourse() {
           id="ppt"
           required
           name="pptFile" value={formData.pptFile} onChange={handleChange}
-        />
+        /> */}
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>

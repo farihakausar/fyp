@@ -1,9 +1,28 @@
-import React from 'react'
-import Header from '../../Header'
-import Footer from '../../Footer'
+import React, { useState ,useEffect} from 'react'
+import { useParams } from 'react-router-dom'; 
+import Header from '../../Header';
+import Footer from '../../Footer';
+import axios from 'axios'
+
+
 import { RiAttachmentLine } from 'react-icons/ri';
 import { AiOutlineVideoCamera, AiOutlineMessage } from 'react-icons/ai';
 export default function Vitualclassroom() {
+  const {teacherIdd } = useParams();
+  const [materials, setMaterials] = useState([]);
+
+  useEffect(() => {
+    const fetchMaterials = async () => {
+      try {
+        const response = await axios.get(`/api/teacher/materials/${teacherIdd}`);
+        setMaterials(response.data.materials);
+      } catch (error) {
+        console.error('Error fetching materials:', error);
+      }
+    };
+
+    fetchMaterials();
+  }, [teacherIdd]); 
   return (
    <>
    <Header/>

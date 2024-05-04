@@ -81,19 +81,48 @@ const fileFilter = (req, file, cb) => {
 //     res.status(500).json({ error: "Internal Server Error" });
 //   }
 // });
+// router.post("/register", upload.single("photo"), async (req, res) => {
+//   // console.log(req.file);
+//   const nameing = req.body.nameing;
+//   const email = req.body.email;
+//   const interestedSubjects = req.body.interestedSubjects;
+//   const photo = req.body.photo;
+
+//   const  password = req.body.password;
+//   const  cpassword = req.body.cpassword;
+//   // const photo = req.file.filename;
+//   try {
+//     let user1=await User.create({nameing: nameing,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
+    
+    
+//     // const token = req.cookies.jwtoken;
+//     // res.send({ status: "ok", token }); 
+//     const token =await user1.generateAuthToken();
+// res.cookie("jwtoken",token,{
+//               expires:new Date(Date.now()+4567890),
+//               httpOnly:true
+//           })
+//           res.send({  token }); 
+//   } catch (error) {
+//     res.json({ status: error });
+//   }
+// });
 router.post("/register", upload.single("photo"), async (req, res) => {
   // console.log(req.file);
   const nameing = req.body.nameing;
   const email = req.body.email;
+  const about = req.body.about;
   const interestedSubjects = req.body.interestedSubjects;
+
 
   const  password = req.body.password;
   const  cpassword = req.body.cpassword;
+  const photo = req.body.photo;
   // const photo = req.file.filename;
   try {
-    let user1=await User.create({nameing: nameing,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
+    let user1=await User.create({nameing: nameing,about:about,photo:photo,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
     
-    
+    console.log("usernkn",user1)
     // const token = req.cookies.jwtoken;
     // res.send({ status: "ok", token }); 
     const token =await user1.generateAuthToken();
@@ -300,47 +329,7 @@ router.post("/getuserbyid/:userid",async(req,res)=>{
     }
   });
   
-  router.post("/create-payment-intent/:userId/:courseId", async (req, res) => {
-    try {
-      const { userId, courseId } = req.params;
-  
-      // Update the user schema to include the specific course and mark payment as done
-      await User.findByIdAndUpdate(userId, { 
-        $push: { courses: courseId },
-        paymentStatus: 'done'
-      });
-  
-      // Create a payment intent with specific amount, currency, and payment method types
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1099, // Adjust the amount as needed
-        currency: "usd",
-        payment_method_types: ["card"], // By default
-      });
-  
-      const clientSecret = paymentIntent.client_secret;
-  
-      // Send the client secret back to the client
-      res.json({
-        clientSecret: clientSecret,
-      });
-    } catch (error) {
-      console.log(error.message, "backend");
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-  router.post('/create-payment-intent', async (req, res) => {
-      try {
-        const { amount } = req.body;
-        const paymentIntent = await stripe.paymentIntents.create({
-          amount,
-          currency: 'usd',
-        });
-        res.json({ clientSecret: paymentIntent.client_secret });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Server error' });
-      }
-    });
+ 
     
   router.get("/users-with-payment-done", async (req, res) => {
     try {

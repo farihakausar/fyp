@@ -1,9 +1,26 @@
- import React from 'react'
-import Header from '../../Header'
-import Footer from '../../Footer'
-import { useParams } from 'react-router-dom'; 
+import React, { useState, useEffect } from 'react';
+import Header from '../../Header';
+import Footer from '../../Footer';
+import { useParams } from 'react-router-dom';
+import axios from 'axios'; 
+
 export default function SpecificService() {
-  const {teacherIdd } = useParams(); 
+  const {teacherId } = useParams(); 
+  
+  const [teacherRequest, setTeacherRequest] = useState(null);
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(`/api/teacher/service-request/${teacherId}`);
+        setTeacherRequest(response.data.teacherRequest);
+        setStudents(response.data.teacherRequest.users); // Assuming users' data is fetched from the API
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchData();
+  }, [teacherId]);
   const people = [
     {
       name: 'Leslie Alexander',
@@ -61,75 +78,138 @@ export default function SpecificService() {
    return (
     <>
     <Header/>
+    {teacherRequest && (
      <div>
-     <div className="px-4 sm:px-0">
-       <h3 className="text-base font-semibold leading-7 text-gray-900">Applicant Information :{teacherIdd}</h3>
-       <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
-     </div>
+    
      <div className="mt-6 border-t border-gray-100">
        <dl className="divide-y divide-gray-100">
+       <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+       {/* <img className="h-12 w-200 flex-none rounded-full bg-gray-50" src={teacherRequest.photo} alt="" /> */}
+              <dt className="text-sm font-medium leading-6 text-gray-900">Course</dt>
+               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{teacherRequest.course}</dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">Price</dt>
+               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{teacherRequest.price}</dd>
+             </div>
+         
+        
          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-           <dt className="text-sm font-medium leading-6 text-gray-900">Full name</dt>
-           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+           {/* <dt className="text-sm font-medium leading-6 text-gray-900">About</dt> */}
+           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+           {/* {teacherRequest.about} */}
+           </dd>
          </div>
          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-           <dt className="text-sm font-medium leading-6 text-gray-900">Application for</dt>
-           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Backend Developer</dd>
-         </div>
-         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-           <dt className="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
-         </div>
-         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-           <dt className="text-sm font-medium leading-6 text-gray-900">Salary expectation</dt>
-           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
+           <dt className="text-sm font-medium leading-6 text-gray-900">Address</dt>
+           <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+           {teacherRequest.address} 
+           </dd>
          </div>
          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
            <dt className="text-sm font-medium leading-6 text-gray-900">About</dt>
            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-             Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
-             qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud
-             pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+           {teacherRequest.about}
            </dd>
          </div>
          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-           <dt className="text-sm font-medium leading-6 text-gray-900">stundets</dt>
+           {/* <dt className="text-sm font-medium leading-6 text-gray-900">stundets</dt> */}
            <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
            <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
-        <li key={person.email} className="flex justify-between gap-x-6 py-5">
-          <div className="flex min-w-0 gap-x-4">
-            <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={person.imageUrl} alt="" />
+     
+             {/* Display students */}
+             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+               <dt className="text-sm font-medium leading-6 text-gray-900">Students Enrolled</dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+               {/* {students.length > 0 ? (
+                   <ul>
+                     {students.map(student => (
+                      <>
+                  
+                       <li key={student._id} className="flex justify-between gap-x-6 py-5">{student.name}
+                       <div className="flex min-w-0 gap-x-4">
+            <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src='nkn' alt="" />
             <div className="min-w-0 flex-auto">
-              <p className="text-sm font-semibold leading-6 text-gray-900">{person.name}</p>
-              <p className="mt-1 truncate text-xs leading-5 text-gray-500">{person.email}</p>
+              <p className="text-sm font-semibold leading-6 text-gray-900">trrtyuio</p>
+              <p className="mt-1 truncate text-xs leading-5 text-gray-500">poiuyt</p>
             </div>
+            </li>
+            </>
+                     ))}
+                   </ul>
+                 ) : (
+                   <p>No students enrolled</p>
+                 )} */}
+                 {students.length > 0 ? (
+  <ul>
+    {students.map(student => (
+      <li key={student._id} className="flex justify-between gap-x-6 py-5">
+        {student.name}
+        <div className="flex min-w-0 gap-x-4">
+          <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="nkn" alt="" />
+          <div className="min-w-0 flex-auto">
+            <p className="text-sm font-semibold leading-6 text-gray-900">trrtyuio</p>
+            <p className="mt-1 truncate text-xs leading-5 text-gray-500">poiuyt</p>
           </div>
-          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-            {person.lastSeen ? (
-              <p className="mt-1 text-xs leading-5 text-gray-500">
-                Last seen <time dateTime={person.lastSeenDateTime}>{person.lastSeen}</time>
-              </p>
-            ) : (
-              <div className="mt-1 flex items-center gap-x-1.5">
-                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                </div>
-                <p className="text-xs leading-5 text-gray-500">Online</p>
-              </div>
-            )}
-          </div>
-        </li>
-      ))}
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <p>No students enrolled</p>
+)}
+
+               </dd>
+             </div>
     </ul>
            </dd>
          </div>
        </dl>
      </div>
    </div>
+   )}
 <Footer/>
    </>
+  //    <>
+  //    <Header />
+  //    {teacherRequest && (
+  //      <div>
+  //        <div className="px-4 sm:px-0">
+  //          <h3 className="text-base font-semibold leading-7 text-gray-900">Applicant Information : {teacherRequest.teacher}</h3>
+  //          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+  //        </div>
+  //        <div className="mt-6 border-t border-gray-100">
+  //          <dl className="divide-y divide-gray-100">
+  //            {/* Display teacher request details */}
+  //            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+  //              <dt className="text-sm font-medium leading-6 text-gray-900">Course</dt>
+  //              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{teacherRequest.course}</dd>
+  //            </div>
+  //            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+  //              <dt className="text-sm font-medium leading-6 text-gray-900">Price</dt>
+  //              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{teacherRequest.price}</dd>
+  //            </div>
+  //            {/* Display students */}
+  //            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+  //              <dt className="text-sm font-medium leading-6 text-gray-900">Students Enrolled</dt>
+  //              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+  //                {students.length > 0 ? (
+  //                  <ul>
+  //                    {students.map(student => (
+  //                      <li key={student._id}>{student.name}</li>
+  //                    ))}
+  //                  </ul>
+  //                ) : (
+  //                  <p>No students enrolled</p>
+  //                )}
+  //              </dd>
+  //            </div>
+  //          </dl>
+  //        </div>
+  //      </div>
+  //    )}
+  //    <Footer />
+  //  </>
    )
  }
 
