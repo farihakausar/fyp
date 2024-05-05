@@ -36,7 +36,7 @@ export default function Homesection() {
 <section class="px-4 py-10 bg-cover bg-center md:px-10 lg:px-20 xl:px-40 2xl:px-80 md:py-20 bg-customBlue" style={{backgroundImage: `url(${logo1})`}}>
   <div class="container mx-auto flex flex-col md:flex-row items-center">
     <div class="md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center text-white">
-      <h1 class="title-font  text-3xl mb-4 font-medium transition text-customBlue duration-500 transform hover:scale-110">Welcome to Tute Me!<br class="hidden lg:inline-block"/> Platform</h1>
+      <h1 class="title-font  text-3xl mb-4 font-medium transition text-customBlue duration-500 transform hover:scale-110 font-marck">Welcome to Tute Me!<br class="hidden lg:inline-block"/> Platform</h1>
 
       <div class="flex justify-center">
       <a href="/login" class="inline-flex hover:bg-white bg-customBlue hover:border-2 py-2 px-6   hover:border-dashed hover:border-customBlue rounded text-lg transition duration-300">Join as Student</a>
@@ -67,7 +67,7 @@ export default function Homesection() {
     </div> */}
     <div className="text-center mb-10">
   <h1 className="sm:text-3xl text-2xl font-medium title-font text-red-600 mb-4">What is Tute me ?</h1>
-  <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto text-customBlue font-bold italic">"Education is the key to success. At Tute Me, we strive to provide top-notch educational resources and support to help you achieve your learning goals"</p>
+  <p className=" leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto font-marck text-xl text-customBlue font-bold italic">"Education is the key to success. At Tute Me, we strive to provide top-notch educational resources and support to help you achieve your learning goals"</p>
   <div className="flex mt-6 justify-center">
     <div className="w-16 h-1 rounded-full bg-indigo-500 inline-flex"></div>
   </div>

@@ -38,20 +38,19 @@ export default function SpecifcTutor() {
     <img
       alt="team"
       class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4"
-      src="https://dummyimage.com/200x200"
+      src={teacherRequest.photo}
     />
     <div class="flex-grow sm:pl-8">
-      <h2 class="title-font font-medium text-lg text-customBlue">
-        Teacher Nam
-      </h2>
+    
       <h3 class="text-gray-500 mb-3">
-        <StarFilled className="mr-2" /> 
+        <StarFilled className="mr-2" />  suvbject{teacherRequest.course}
       </h3>
       <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
        
         
-        <div className="mt-2 flex items-center text-sm text-gray-500">
-           suvbject{teacherRequest.course}
+      
+        <div className="mt-2 flex   items-center text-sm text-gray-500">
+           suvbject{teacherRequest.about}
         </div>
        
       </div>
@@ -72,11 +71,11 @@ export default function SpecifcTutor() {
        
         <div class="flex flex-col items-center rounded-lg bg-gray-100 p-4 lg:p-8">
         <div class="mb-2 h-24 w-24 overflow-hidden rounded-full bg-gray-200 shadow-lg md:mb-4 md:h-32 md:w-32">
-          <img src="#" loading="lazy" alt="Photo by christian ferrer" class="h-full w-full object-cover object-center" />
+          <img src={student.photo} loading="lazy" alt="Photo by christian ferrer" class="h-full w-full object-cover object-center" />
         </div>
 
         <div>
-          <div class="text-center font-bold text-indigo-500 md:text-lg">name{student.name}</div>
+          <div class="text-center font-bold text-indigo-500 md:text-lg">name{student.nameing}</div>
           <p class="mb-3 text-center text-sm text-gray-500 md:mb-4 md:text-base">CFO</p>
 
        

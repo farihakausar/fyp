@@ -543,12 +543,26 @@ router.get('/materials', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
-router.get('/materials/:courseId', async (req, res) => {
-  try {
-    const { courseId } = req.params; // Course ID
+// router.get('/materials/:courseId', async (req, res) => {
+//   try {
+//     const { courseId } = req.params; // Course ID
     
-    // Fetch all materials associated with the specified course ID
-    const materials = await Material.find({ courseTitle: courseId });
+//     // Fetch all materials associated with the specified course ID
+//     const materials = await Material.find({ courseTitle: courseId });
+
+//     // Send the materials as a response
+//     res.status(200).json({ materials });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Server error' });
+//   }
+// });
+router.get('/materials/:teacherIdd', async (req, res) => {
+  try {
+    const { teacherIdd } = req.params; // Service Request ID
+    
+    // Fetch all materials associated with the specified service request ID
+    const materials = await Material.find({ teacherServiceRequest: teacherIdd });
 
     // Send the materials as a response
     res.status(200).json({ materials });
@@ -558,4 +572,9 @@ router.get('/materials/:courseId', async (req, res) => {
   }
 });
 
+router.get('/logout',(req,res)=>{
+  res.clearCookie('jwtoken',{path:"/"})
+  console.log("nnknkmnknnknkl")
+  res.send("userlogout")
+})
 module.exports = router;

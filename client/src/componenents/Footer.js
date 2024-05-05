@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <footer class="text-white body-font " style={{ backgroundColor: 'rgb(0, 36, 125)' }}>
+    <footer id='#footer'class="text-white body-font " style={{ backgroundColor: 'rgb(0, 36, 125)' }}>
     <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
       <div class="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left md:mt-0 mt-10">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">

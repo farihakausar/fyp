@@ -41,72 +41,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-// const upload = multer({ storage: storage ,fileFilter});
-// router.post("/register", upload.single('image'), async (req, res) => {
-//   try {
-//     // Extract user details from request body
-//     const { nameing, email, interestedSubjects, password, cpassword } = req.body;
-//     const result = await cloudinary.uploader.upload(req.file.path);
-//     //     const newImage = new Image({ imageURL: result.secure_url });
-//     //     await newImage.save();
-//     // Upload photo to Cloudinary
-//     const photo=req.file.filename;
-//     // const uploadedPhoto = await cloudinary.uploader.upload(req.filename); // Assuming 'photo' is the file received from frontend
 
-//     // Create user with Cloudinary photo URL
-//     const user = await User.create({
-//       nameing: nameing,
-//       email: email,
-//       interestedSubjects: interestedSubjects,
-//       password: password,
-//       cpassword: cpassword,
-//       imageURL: result.secure_url,
-//       // photo: photo  Store Cloudinary URL in user document
-//     });
-
-//     // Generate JWT token
-//     const token = await user.generateAuthToken();
-
-//     // Set token in cookie
-//     res.cookie("jwtoken", token, {
-//       expires: new Date(Date.now() + 4567890),
-//       httpOnly: true
-//     });
-
-//     // Send success response with token
-//     res.status(200).json({ token });
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
-// router.post("/register", upload.single("photo"), async (req, res) => {
-//   // console.log(req.file);
-//   const nameing = req.body.nameing;
-//   const email = req.body.email;
-//   const interestedSubjects = req.body.interestedSubjects;
-//   const photo = req.body.photo;
-
-//   const  password = req.body.password;
-//   const  cpassword = req.body.cpassword;
-//   // const photo = req.file.filename;
-//   try {
-//     let user1=await User.create({nameing: nameing,email:email,interestedSubjects:interestedSubjects,password:password,cpassword:cpassword});
-    
-    
-//     // const token = req.cookies.jwtoken;
-//     // res.send({ status: "ok", token }); 
-//     const token =await user1.generateAuthToken();
-// res.cookie("jwtoken",token,{
-//               expires:new Date(Date.now()+4567890),
-//               httpOnly:true
-//           })
-//           res.send({  token }); 
-//   } catch (error) {
-//     res.json({ status: error });
-//   }
-// });
 router.post("/register", upload.single("photo"), async (req, res) => {
   // console.log(req.file);
   const nameing = req.body.nameing;
@@ -220,6 +155,17 @@ router.get('/about',auth,(req,res)=>{
   console.log("nnknkmnknnknkl")
   res.send(req.rootUser)
 })
+// router.get('/logout',(req,res)=>{
+//   res.clearCookie('jwtoken',{path:"/"})
+//   console.log("nnknkmnknnknkl")
+//   res.send("userlogout")
+// })
+router.get('/logout', (req, res) => {
+  res.clearCookie('jwtoken', { path: '/' }); // Clear the cookie named 'jwtoken'
+  console.log("Cookie cleared successfully");
+  res.send("userlogout");
+});
+
 
 router.get("/getallteacher",async(req,res)=>{
   try{

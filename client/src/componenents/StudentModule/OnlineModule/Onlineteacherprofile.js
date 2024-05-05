@@ -72,23 +72,23 @@ export default function Onlineteacherprofile() {
           <img
             alt="team"
             class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4"
-            src="https://dummyimage.com/200x200"
+            src={teacherRequest.photo}
           />
           <div class="flex-grow sm:pl-8">
             <h2 class="title-font font-medium text-lg text-customBlue">
-              Teacher Name{teacherRequest.name}
+              {teacherRequest.name}
             </h2>
             <h2 class="title-font font-medium text-lg text-customBlue">
-              Teacher Name{teacherRequest.course}
+             {teacherRequest.course}
             </h2>
             <h3 class="text-gray-500 mb-3">
-              <StarFilled className="mr-2" /> 
+              {/* <StarFilled className="mr-2" />  */}
             </h3>
             <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
              
               
               <div className="mt-2 flex items-center text-sm text-gray-500">
-                <DollarOutlined className="mr-2" /> rpce {teacherRequest.price}
+                <DollarOutlined className="mr-2" /> {teacherRequest.price}
               </div>
               
             </div>
@@ -96,13 +96,13 @@ export default function Onlineteacherprofile() {
         </div>
       </div>
       <div class="p-12 mt-4 bg-customBlue rounded-md shadow-lg">
-      <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">About mE</h2>
-        <p class="leading-relaxed mb-8 text-white"> about teacher
-          {/* {teacherRequest.description} */}
-          <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">auqlification</h2>
-        <p class="leading-relaxed mb-8 text-white"> about teacher
-          {/* {teacherRequest.description} */}
-        </p>
+      <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">About teacher</h2>
+        <p class="leading-relaxed mb-8 text-white"> {teacherRequest.educationDetail}
+      <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">About Service</h2>
+        <p class="leading-relaxed mb-8 text-white"> {teacherRequest.about}</p>
+        
+      
+       
         </p>
       </div>
     

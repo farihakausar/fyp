@@ -64,52 +64,58 @@ export default function Teacherprofile() {
 <>
   <Header />
   {teacherRequest && (
-    <>
-      <div className="min-w-0 bg-gray-100 flex-1"></div>
-      <div class="p-4 lg:w-1/2 rounded-lg">
-        <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center  sm:text-left">
-          <img
-            alt="team"
-            class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4"
-            src="https://dummyimage.com/200x200"
-          />
-          <div class="flex-grow sm:pl-8">
-            <h2 class="title-font font-medium text-lg text-customBlue">
-              Teacher Name {teacherRequest.name}
-            </h2>
-            <h3 class="text-gray-500 mb-3">
-              <StarFilled className="mr-2" /> {teacherRequest.course}
-            </h3>
-            <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
-              <div className="mt-2 flex items-center text-sm text-gray-500">
-                <EnvironmentOutlined className="mr-2" />
-                 {teacherRequest.address}
-              </div>
-              
-              <div className="mt-2 flex items-center text-sm text-gray-500">
-                <DollarOutlined className="mr-2" /> {teacherRequest.price}
-              </div>
-              <div className="mt-2 flex items-center text-sm text-gray-500">
-                <ClockCircleOutlined className="mr-2" />
-               {teacherRequest.timing}
-              </div>
+  <>
+    <div className="min-w-0 bg-gray-100 flex-1"></div>
+    <div class="p-4 lg:w-1/2 rounded-lg">
+      <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center  sm:text-left">
+        <img
+          alt="team"
+          class="flex-shrink-0 rounded-lg w-48 h-48 object-cover object-center sm:mb-0 mb-4"
+          src={teacherRequest.photo}
+        />
+        <div class="flex-grow sm:pl-8">
+          <h2 class="title-font font-medium text-lg text-customBlue">
+            {/* Teacher Name {teacherRequest.name} */}
+          </h2>
+          <h3 class="text-gray-500 mb-3">
+            <StarFilled className="mr-2" /> {teacherRequest.course}
+          </h3>
+          <div className="flex flex-col space-y-2">
+            <div className="flex items-center text-sm text-gray-500">
+              <EnvironmentOutlined className="mr-2" />
+              <span>{teacherRequest.address}</span>
+            </div>
+            <div className="flex items-center text-sm text-gray-500">
+              <DollarOutlined className="mr-2" />
+              <span>{teacherRequest.price}</span>
+            </div>
+            <div className="flex items-center text-sm text-gray-500">
+              <ClockCircleOutlined className="mr-2" />
+              <span>{teacherRequest.timing}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="p-12 mt-4 bg-customBlue rounded-md shadow-lg">
-      <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">About mE</h2>
-        <p class="leading-relaxed mb-8 text-white"> about teacher
-          {teacherRequest.description}
-        </p>
-      </div>
+    </div>
+    <div class="p-12 mt-4 bg-customBlue rounded-md shadow-lg">
+      <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">About Service</h2>
+      <p class="leading-relaxed mb-8 text-white">
+        {teacherRequest.about}
+      </p>
+      <h2 class="sm:text-3xl text-2xl title-font font-medium text-white mb-2">About Teacher</h2>
+      <p class="leading-relaxed mb-8 text-white">
+        {teacherRequest.educationDetail}
+      </p>
+    </div>
 
-      <div class="lg:w-1/3 md:w-1/2 flex flex-row md:m-auto w-full md:py-8 mt-8 md:mt-0">
-        <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a  href={`/payment/${userId}/${teacherId}/${price}`}>Book</a></button>
-        <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/createchat'>Chat</a></button>
-      </div>
-    </>
-  )}
+    <div class="lg:w-1/3 md:w-1/2 flex flex-row md:m-auto w-full md:py-8 mt-8 md:mt-0">
+      <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-10 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a  href={`/payment/${userId}/${teacherId}/${price}`}>Book</a></button>
+      <button class="text-white bg-indigo-500 border-0 m-3 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href='/createchat'>Chat</a></button>
+    </div>
+  </>
+)}
+
+  
   <Footer />
 </>
 

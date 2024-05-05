@@ -15,7 +15,8 @@ export default function Vitualclassroom() {
     const fetchMaterials = async () => {
       try {
         const response = await axios.get(`/api/teacher/materials/${teacherIdd}`);
-        setMaterials(response.data.materials);
+        setMaterials(response.data);
+        console.log(response.data,"jkojl");
       } catch (error) {
         console.error('Error fetching materials:', error);
       }
@@ -26,6 +27,7 @@ export default function Vitualclassroom() {
   return (
    <>
    <Header/>
+   
    <div class="bg-white py-6 sm:py-8 lg:py-12">
   <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
     <div class="flex flex-col items-center justify-between gap-4 rounded-lg bg-gray-100 p-4 sm:flex-row md:p-8">
@@ -37,7 +39,7 @@ export default function Vitualclassroom() {
       {/* <a href="#" class="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">Start now</a> */}
     </div>
     <video class="w-full h-auto max-w-full" controls>
-  <source src="/docs/videos/flowbite.mp4" type="video/mp4"/>
+  {/* <source src="/docs/videos/flowbite.mp4" type="video/mp4"/> */}
   Your browser does not support the video tag.
 </video>
 
@@ -59,7 +61,8 @@ export default function Vitualclassroom() {
   <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
     {/* <div class="flex flex-col items-center justify-between gap-4 rounded-lg bg-gray-100 p-4 sm:flex-row md:p-8"> */}
    
-  
+    {materials && (
+    <>
           <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
@@ -69,16 +72,16 @@ export default function Vitualclassroom() {
                     <RiAttachmentLine  className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                     <div className="ml-4 flex min-w-0 flex-1 gap-2">
                       <span className="truncate font-medium">resume_back_end_developer.pdf</span>
-                      <span className="flex-shrink-0 text-gray-400">2.4mb</span>
+                      <span className="flex-shrink-0 text-gray-400">{materials.pptFile}</span>
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                      Download
+                    <a href={materials.pptFile} target='_blank'  className="font-medium text-indigo-600 hover:text-indigo-500">
+                      See
                     </a>
                   </div>
                 </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                {/* <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                   <div className="flex w-0 flex-1 items-center">
                   <RiAttachmentLine  className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
                     <div className="ml-4 flex min-w-0 flex-1 gap-2">
@@ -91,12 +94,14 @@ export default function Vitualclassroom() {
                       Download
                     </a>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </dd>
           {/* </div> */}
           
     </div>
+    </>
+    )}
   </div>
 </div>
    <div class="bg-white py-6 sm:py-8 lg:py-12">
@@ -138,7 +143,7 @@ export default function Vitualclassroom() {
 <a href="/videostearm" class="inline-block rounded-lg m-2 bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base"><AiOutlineVideoCamera /></a> 
 <a href="/chatonline" class="inline-block m-2 rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base"><AiOutlineMessage  /></a> 
 </div>
-   
+
    <Footer/>
    
    </>
